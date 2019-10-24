@@ -9,13 +9,7 @@ Supported devices:
 
 ## Installation
 
-To install, either clone this project and install using `distutils`:
-
-```python3 setup.py install```
-
-or install the package from PyPi:
-
-```pip3 install sdm_modbus```
+Todo.
 
 ## Usage
 
