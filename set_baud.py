@@ -11,36 +11,20 @@ from pymodbus.client.sync import ModbusTcpClient
 
 
 def get_register(client, address, length, unit):
-    result = client.read_input_registers(
-        address=address,
-        count=length,
-        unit=unit
-    )
-
-    return BinaryPayloadDecoder.fromRegisters(
-        result.registers, 
-        Endian.Big
-    ).decode_32bit_float()
+    result = client.read_input_registers(address=address, count=length, unit=unit)
+    return BinaryPayloadDecoder.fromRegisters(result.registers, Endian.Big).decode_32bit_float()
 
 
 def get_holding_register(client, address, length, unit):
-    result = client.read_holding_registers(
-        address=address,
-        count=length,
-        unit=unit
-    )
+    result = client.read_holding_registers(address=address, count=length, unit=unit)
+    return BinaryPayloadDecoder.fromRegisters(result.registers, Endian.Big).decode_32bit_float()
 
-    return BinaryPayloadDecoder.fromRegisters(
-        result.registers,
-        Endian.Big
-    ).decode_32bit_float()
 
-def write_holding_register(client, address, unit, value):   
+def write_holding_register(client, address, unit, value):
     return client.write_register(address, value, unit=unit)
 
 
 if __name__ == "__main__":
-
     argparser = argparse.ArgumentParser()
     argparser.add_argument("host", type=str, help="ModbusTCP address")
     argparser.add_argument("port", type=int, help="ModbusTCP port")
@@ -68,7 +52,7 @@ if __name__ == "__main__":
         mbtcpc = ModbusTcpClient(args.host, args.port)
         mbtcpc.connect()
 
-        print(f"Retrieving values...")
+        print("Retrieving values...")
 
         meter_id = int(get_holding_register(mbtcpc, 0x0014, 2, args.unit))
         meter_baud = int(get_holding_register(mbtcpc, 0x001C, 2, args.unit))
@@ -78,27 +62,25 @@ if __name__ == "__main__":
         prompt = False
         prompt = input(f"Update unit {args.unit} to {args.baud} baud, continue? Y/n: ").lower()
 
-        if prompt == 'n':
+        if prompt == "n":
             sys.exit(1)
 
         prompt = False
-        prompt = input(f"Enable set-up mode on the SDM120 now, continue? Y/n: ").lower()
+        prompt = input("Enable set-up mode on the SDM120 now, continue? Y/n: ").lower()
 
-        if prompt == 'n':
+        if prompt == "n":
             sys.exit(1)
 
-        print(f"Writing new values...")
+        print("Writing new values...")
 
         if not args.simulate:
             res = write_holding_register(mbtcpc, 0x001C, args.unit, baud_map[args.baud])
-        
-        print(f"Retrieving values...")
+
+        print("Retrieving values...")
 
         meter_id = int(get_holding_register(mbtcpc, 0x0014, 2, args.unit))
         meter_baud = int(get_holding_register(mbtcpc, 0x001C, 2, args.unit))
 
-        print(f"Meter ID: {meter_id}\nBaud Rate: {baud_map[meter_baud]}")
-        print(f"Done.")
-
+        print(f"Meter ID: {meter_id}\nBaud Rate: {baud_map[meter_baud]}\nDone.")
     except KeyboardInterrupt:
         sys.exit(1)
