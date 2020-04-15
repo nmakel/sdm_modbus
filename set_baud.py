@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import time
 import sys
 
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
-from pymodbus.payload import BinaryPayloadBuilder
 from pymodbus.client.sync import ModbusTcpClient
 
 

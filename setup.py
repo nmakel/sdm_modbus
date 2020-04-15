@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
 import setuptools
-from distutils.core import setup
 
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setup(
+setuptools.setup(
     name="sdm_modbus",
     version="0.0.1",
     description="Eastron SDM Modbus parser library",
@@ -18,9 +17,10 @@ setup(
     author_email="",
     url="https://github.com/nmakel/sdm_modbus",
     packages=["sdm_modbus"],
+    include_package_data=True,
     install_requires=[
         "pymodbus>=2.2.0"
-   ],
+    ],
     classifiers = [
         "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3.7",
