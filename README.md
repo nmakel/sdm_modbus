@@ -164,7 +164,7 @@ To pretty print all input and holding registers *with* formatting and units:
 
 ```
     >>> device.pprint()
-    SDM120(10.0.98.239:502, unit=0x1):
+    SDM120(10.0.0.123:502, unit=0x1):
 
     Input Registers:
         Voltage: 239.6V
