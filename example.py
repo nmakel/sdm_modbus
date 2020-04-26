@@ -12,4 +12,6 @@ if __name__ == "__main__":
     args = argparser.parse_args()
 
     meter = sdm_modbus.SDM120(host=args.host, port=args.port, unit=args.unit)
+
+    print(meter.read_all())
     meter.pprint()
