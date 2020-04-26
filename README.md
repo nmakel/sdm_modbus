@@ -37,22 +37,25 @@ optional arguments:
 Output:
 
 ```
+{'voltage': 236.89999389648438, 'current': 8.619999885559082, 'power_active': -1923.699951171875, 'power_apparent': 2033.04833984375, 'power_reactive': -657.5999755859375, 'pfactor': -0.9462323784828186, 'phase_angle': 0.0, 'frequency': 49.95000076293945, 'import_energy_active': 1551.3740234375, 'export_energy_active': 1335.6939697265625, 'import_energy_reactive': 0.014999999664723873, 'export_energy_reactive': 4362.13916015625, 'total_energy_active': 2887.068115234375, 'total_energy_reactive': 0.0, 'demand_time': 1, 'demand_period': 60, 'meter_id': 1, 'relay_pulse_width': 60, 'network_parity_stop': 0, 'baud': 2, 'p1_output_mode': 4, 'display_scroll_timing': 0, 'p1_divisor': 0, 'measurement_mode': 0, 'indicator_mode': 0}
+
 SDM120(10.0.0.123:502, unit=0x1):
 
 Input Registers:
-    Voltage: 239.7V
-    Current: 7.77A
-    Power (Active): -1721.3W
-    Power (Apparent): 1845.77VA
-    Power (Reactive): -666.3VA
-    Power Factor: -0.93
-    Frequency: 50.0Hz
-    Imported Energy (Active): 1546.99kWh
-    Imported Energy (Active): 1320.35kWh
+    Voltage: 237.00V
+    Current: 8.63A
+    Power (Active): -1919.70W
+    Power (Apparent): 2035.57VA
+    Power (Reactive): -676.70VA
+    Power Factor: -0.94
+    Phase Angle: 0.00°
+    Frequency: 50.00Hz
+    Imported Energy (Active): 1551.37kWh
+    Imported Energy (Active): 1335.69kWh
     Imported Energy (Reactive): 0.01kVAh
-    Exported Energy (Reactive): 4346.54kVAh
-    Total Energy (Active): 2867.35kWh
-    Total Energy (Reactive): 0.0kVAh
+    Exported Energy (Reactive): 4362.14kVAh
+    Total Energy (Active): 2887.07kWh
+    Total Energy (Reactive): 0.00kVAh
 
 Holding Registers:
     Demand Time: 1s
@@ -65,6 +68,7 @@ Holding Registers:
     Display Scroll Timing: 0s
     P1 Divisor: 0.001kWh/imp
     Measurement Mode: 0
+    Pulse/LED Indicator Mode: Import + Export Energy (Active)
 ```
 
 ## Examples
@@ -110,41 +114,32 @@ Printing the class yields basic device parameters:
 Reading a single input register by name:
 
 ```
-    >>> device.read_input("voltage")
-    240.6
-
-    >>> device.read_input("total_energy_active", precision=4)
-    2866.6069
+    >>> device.read("voltage")
+    236.89999389648438
 ```
 
-Read all input registers:
+Read all input registers by passing the `sdm_modbus.registerType.INPUT` enum to `read_all()`. Leave this blank to read both `INPUT` and `HOLDING` registers:
 
 ```
-    >>> device.read_all_input()
+    >>> device.read_all(sdm_modbus.registerType.INPUT)
     {
-        'voltage': 240.6,
-        'current': 8.33,
-        'power_active': -1892.4,
-        'power_apparent': 1985.36,
-        'power_reactive': -600.3,
-        'pfactor': -0.95,
-        'frequency': 50.0,
-        'import_energy_active': 1546.99,
-        'export_energy_active': 1319.42,
-        'import_energy_reactive': 0.01,
-        'export_energy_reactive': 4346.17,
-        'total_energy_active': 2866.41,
-        'total_energy_reactive': 0.0
+        'voltage': 236.89999389648438,
+        'current': 8.619999885559082,
+        'power_active': -1923.699951171875,
+        'power_apparent': 2033.04833984375,
+        'power_reactive': -657.5999755859375,
+        'pfactor': -0.9462323784828186,
+        'phase_angle': 0.0,
+        'frequency': 49.95000076293945,
+        'import_energy_active': 1551.3740234375,
+        'export_energy_active': 1335.6939697265625,
+        'import_energy_reactive': 0.014999999664723873,
+        'export_energy_reactive': 4362.13916015625,
+        'total_energy_active': 2887.068115234375,
+        'total_energy_reactive': 0.0,
     }
-```
 
-The same works for holding registers:
-
-```
-    >>> device.read_holding("meter_id")
-    1
-
-    >>> device.read_all_holding()
+    >>> device.read_all(sdm_modbus.registerType.HOLDING)
     {
         'demand_time': 1,
         'demand_period': 60,
@@ -152,11 +147,11 @@ The same works for holding registers:
         'relay_pulse_width': 60,
         'network_parity_stop': 0,
         'baud': 2,
-        'p1_output_mode':
-        '0x4',
+        'p1_output_mode': 4,
         'display_scroll_timing': 0,
-        'p1_divisor': '0x0',
-        'measurement_mode': '0x0'
+        'p1_divisor': 0,
+        'measurement_mode': 0,
+        'indicator_mode': 0
     }
 ```
 
@@ -167,19 +162,20 @@ To pretty print all input and holding registers *with* formatting and units:
     SDM120(10.0.0.123:502, unit=0x1):
 
     Input Registers:
-        Voltage: 239.6V
-        Current: 3.4A
-        Power (Active): -434.9W
-        Power (Apparent): 757.67VA
-        Power (Reactive): -620.3VA
-        Power Factor: -0.57
-        Frequency: 50.0Hz
-        Imported Energy (Active): 1546.99kWh
-        Imported Energy (Active): 1319.44kWh
+        Voltage: 237.00V
+        Current: 8.63A
+        Power (Active): -1919.70W
+        Power (Apparent): 2035.57VA
+        Power (Reactive): -676.70VA
+        Power Factor: -0.94
+        Phase Angle: 0.00°
+        Frequency: 50.00Hz
+        Imported Energy (Active): 1551.37kWh
+        Imported Energy (Active): 1335.69kWh
         Imported Energy (Reactive): 0.01kVAh
-        Exported Energy (Reactive): 4346.18kVAh
-        Total Energy (Active): 2866.44kWh
-        Total Energy (Reactive): 0.0kVAh
+        Exported Energy (Reactive): 4362.14kVAh
+        Total Energy (Active): 2887.07kWh
+        Total Energy (Reactive): 0.00kVAh
 
     Holding Registers:
         Demand Time: 1s
@@ -192,16 +188,28 @@ To pretty print all input and holding registers *with* formatting and units:
         Display Scroll Timing: 0s
         P1 Divisor: 0.001kWh/imp
         Measurement Mode: 0
+        Pulse/LED Indicator Mode: Import + Export Energy (Active)
+```
+
+If you need more information about a particular register, to look up the units or enumerations, for example:
+
+```
+    >>> device.registers["voltage"]
+        # address, length, type, datatype, valuetype, name, unit
+        (0, 2, <registerType.INPUT: 1>, <registerDataType.FLOAT32: 11>, <class 'float'>, 'Voltage', 'V'))
+
+    >>> device.registers["p1_divisor"]
+        (63760, 2, <registerType.HOLDING: 2>, <registerDataType.FLOAT32: 11>, <class 'int'>, 'P1 Divisor', ['0.001kWh/imp', '0.01kWh/imp', '0.1kWh/imp', '1kWh/imp'])
 ```
 
 Writing to holding registers is also possible. Setting a new baud rate, for example:
 
 ```
-    >>> device.write_holding("baud", 2)
+    >>> device.write("baud", 2)
     WriteMultipleRegisterResponse (28,2)
 ```
 
-**Remember:** you will need to enable setup mode on your SDM120 by pressing the setup button for 5 seconds. You will receive a `Exception Response(134, 6, GatewayNoResponse)` or similar, otherwise.
+**Remember:** you will need to enable setup mode on your device by pressing the setup button for 5 seconds. You will receive a `Exception Response(134, 6, GatewayNoResponse)` or similar, otherwise.
 
 ## Contributing
 
