@@ -37,7 +37,33 @@ optional arguments:
 Output:
 
 ```
-{'voltage': 236.89999389648438, 'current': 8.619999885559082, 'power_active': -1923.699951171875, 'power_apparent': 2033.04833984375, 'power_reactive': -657.5999755859375, 'pfactor': -0.9462323784828186, 'phase_angle': 0.0, 'frequency': 49.95000076293945, 'import_energy_active': 1551.3740234375, 'export_energy_active': 1335.6939697265625, 'import_energy_reactive': 0.014999999664723873, 'export_energy_reactive': 4362.13916015625, 'total_energy_active': 2887.068115234375, 'total_energy_reactive': 0.0, 'demand_time': 1, 'demand_period': 60, 'meter_id': 1, 'relay_pulse_width': 60, 'network_parity_stop': 0, 'baud': 2, 'p1_output_mode': 4, 'display_scroll_timing': 0, 'p1_divisor': 0, 'measurement_mode': 0, 'indicator_mode': 0}
+{
+    'voltage': 236.89999389648438,
+    'current': 8.619999885559082,
+    'power_active': -1923.699951171875,
+    'power_apparent': 2033.04833984375,
+    'power_reactive': -657.5999755859375,
+    'pfactor': -0.9462323784828186,
+    'phase_angle': 0.0,
+    'frequency': 49.95000076293945,
+    'import_energy_active': 1551.3740234375,
+    'export_energy_active': 1335.6939697265625,
+    'import_energy_reactive': 0.014999999664723873,
+    'export_energy_reactive': 4362.13916015625,
+    'total_energy_active': 2887.068115234375,
+    'total_energy_reactive': 0.0,
+    'demand_time': 1,
+    'demand_period': 60,
+    'meter_id': 1,
+    'relay_pulse_width': 60,
+    'network_parity_stop': 0,
+    'baud': 2,
+    'p1_output_mode': 4,
+    'display_scroll_timing': 0,
+    'p1_divisor': 0,
+    'measurement_mode': 0,
+    'indicator_mode': 0
+}
 
 SDM120(10.0.0.123:502, unit=0x1):
 
@@ -199,7 +225,10 @@ If you need more information about a particular register, to look up the units o
         (0, 2, <registerType.INPUT: 1>, <registerDataType.FLOAT32: 11>, <class 'float'>, 'Voltage', 'V'))
 
     >>> device.registers["p1_divisor"]
-        (63760, 2, <registerType.HOLDING: 2>, <registerDataType.FLOAT32: 11>, <class 'int'>, 'P1 Divisor', ['0.001kWh/imp', '0.01kWh/imp', '0.1kWh/imp', '1kWh/imp'])
+        (
+            63760, 2, <registerType.HOLDING: 2>, <registerDataType.FLOAT32: 11>, <class 'int'>, 
+            'P1 Divisor', ['0.001kWh/imp', '0.01kWh/imp', '0.1kWh/imp', '1kWh/imp']
+        )
 ```
 
 Writing to holding registers is also possible. Setting a new baud rate, for example:
