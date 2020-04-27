@@ -2,8 +2,6 @@
 
 sdm_modbus is a python library that collects data from Eastron SDM single- and three-phase kWh meters over Modbus or ModbusTCP.
 
-This repository is a work in progress.
-
 Supported devices:
 * SDM120
 * SDM630
@@ -20,10 +18,10 @@ or install the package from PyPi:
 
 ## Usage
 
-The script `example.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **ModbusTCP**.
+The script `example.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **ModbusTCP**. To display values as a JSON object, add `--json`.
 
 ```
-usage: example.py [-h] [--unit UNIT] host port
+usage: example.py [-h] [--unit UNIT] [--json] host port
 
 positional arguments:
   host         ModbusTCP address
@@ -32,39 +30,12 @@ positional arguments:
 optional arguments:
   -h, --help   show this help message and exit
   --unit UNIT  Modbus unit
+  --json       Output as JSON
 ```
 
 Output:
 
 ```
-{
-    'voltage': 236.89999389648438,
-    'current': 8.619999885559082,
-    'power_active': -1923.699951171875,
-    'power_apparent': 2033.04833984375,
-    'power_reactive': -657.5999755859375,
-    'pfactor': -0.9462323784828186,
-    'phase_angle': 0.0,
-    'frequency': 49.95000076293945,
-    'import_energy_active': 1551.3740234375,
-    'export_energy_active': 1335.6939697265625,
-    'import_energy_reactive': 0.014999999664723873,
-    'export_energy_reactive': 4362.13916015625,
-    'total_energy_active': 2887.068115234375,
-    'total_energy_reactive': 0.0,
-    'demand_time': 1,
-    'demand_period': 60,
-    'meter_id': 1,
-    'relay_pulse_width': 60,
-    'network_parity_stop': 0,
-    'baud': 2,
-    'p1_output_mode': 4,
-    'display_scroll_timing': 0,
-    'p1_divisor': 0,
-    'measurement_mode': 0,
-    'indicator_mode': 0
-}
-
 SDM120(10.0.0.123:502, unit=0x1):
 
 Input Registers:
@@ -80,15 +51,23 @@ Input Registers:
     Imported Energy (Active): 1335.69kWh
     Imported Energy (Reactive): 0.01kVAh
     Exported Energy (Reactive): 4362.14kVAh
+    Total Demand Power (Active): 1668.02W
+    Maximum Total Demand Power (Active): 3347.26W
+    Import Demand Power (Active): 0.00W
+    Maximum Import Demand Power (Active): 3347.26W
+    Export Demand Power (Active): 1668.02W
+    Maximum Export Demand Power (Active): 2109.45W
+    Total Demand Current: 7.57A
+    Maximum Total Demand Current: 14.97A
     Total Energy (Active): 2887.07kWh
     Total Energy (Reactive): 0.00kVAh
 
 Holding Registers:
     Demand Time: 1s
     Demand Period: 60s
-    Meter ID: 1
     Relay Pulse Width: 60ms
     Network Parity Stop: N-1
+    Meter ID: 1
     Baud Rate: 9600
     P1 Output Mode: Export Energy (Active)
     Display Scroll Timing: 0s
@@ -149,35 +128,43 @@ Read all input registers by passing the `sdm_modbus.registerType.INPUT` enum to 
 ```
     >>> device.read_all(sdm_modbus.registerType.INPUT)
     {
-        'voltage': 236.89999389648438,
-        'current': 8.619999885559082,
-        'power_active': -1923.699951171875,
-        'power_apparent': 2033.04833984375,
-        'power_reactive': -657.5999755859375,
-        'pfactor': -0.9462323784828186,
-        'phase_angle': 0.0,
-        'frequency': 49.95000076293945,
-        'import_energy_active': 1551.3740234375,
-        'export_energy_active': 1335.6939697265625,
-        'import_energy_reactive': 0.014999999664723873,
-        'export_energy_reactive': 4362.13916015625,
-        'total_energy_active': 2887.068115234375,
-        'total_energy_reactive': 0.0,
+        "voltage": 238.60000610351562,
+        "current": 7.59499979019165,
+        "power_active": -1673.800048828125,
+        "power_apparent": 1797.5904541015625,
+        "power_reactive": -655.4000244140625,
+        "pfactor": -0.9311425685882568,
+        "phase_angle": 0.0,
+        "frequency": 50.0,
+        "import_energy_active": 1556.35595703125,
+        "export_energy_active": 1345.9210205078125,
+        "import_energy_reactive": 0.014999999664723873,
+        "export_energy_reactive": 4376.02001953125,
+        "total_demand_power_active": 1659.360107421875,
+        "maximum_total_demand_power_active": 3347.26318359375,
+        "import_demand_power_active": 0.0,
+        "maximum_import_demand_power_active": 3347.26318359375,
+        "export_demand_power_active": 1659.360107421875,
+        "maximum_export_demand_power_active": 2109.4541015625,
+        "total_demand_current": 7.531858921051025,
+        "maximum_total_demand_current": 14.968546867370605,
+        "total_energy_active": 2902.277099609375,
+        "total_energy_reactive": 4376.03515625
     }
 
     >>> device.read_all(sdm_modbus.registerType.HOLDING)
     {
-        'demand_time': 1,
-        'demand_period': 60,
-        'meter_id': 1,
-        'relay_pulse_width': 60,
-        'network_parity_stop': 0,
-        'baud': 2,
-        'p1_output_mode': 4,
-        'display_scroll_timing': 0,
-        'p1_divisor': 0,
-        'measurement_mode': 0,
-        'indicator_mode': 0
+        "demand_time": 1,
+        "demand_period": 60,
+        "relay_pulse_width": 60,
+        "network_parity_stop": 0,
+        "meter_id": 1,
+        "baud": 2,
+        "p1_output_mode": 4,
+        "display_scroll_timing": 0,
+        "p1_divisor": 0,
+        "measurement_mode": 0,
+        "indicator_mode": 0
     }
 ```
 
@@ -200,15 +187,23 @@ To pretty print all input and holding registers *with* formatting and units:
         Imported Energy (Active): 1335.69kWh
         Imported Energy (Reactive): 0.01kVAh
         Exported Energy (Reactive): 4362.14kVAh
+        Total Demand Power (Active): 1668.02W
+        Maximum Total Demand Power (Active): 3347.26W
+        Import Demand Power (Active): 0.00W
+        Maximum Import Demand Power (Active): 3347.26W
+        Export Demand Power (Active): 1668.02W
+        Maximum Export Demand Power (Active): 2109.45W
+        Total Demand Current: 7.57A
+        Maximum Total Demand Current: 14.97A
         Total Energy (Active): 2887.07kWh
         Total Energy (Reactive): 0.00kVAh
 
     Holding Registers:
         Demand Time: 1s
         Demand Period: 60s
-        Meter ID: 1
         Relay Pulse Width: 60ms
         Network Parity Stop: N-1
+        Meter ID: 1
         Baud Rate: 9600
         P1 Output Mode: Export Energy (Active)
         Display Scroll Timing: 0s
@@ -242,4 +237,4 @@ Writing to holding registers is also possible. Setting a new baud rate, for exam
 
 ## Contributing
 
-Contributions are more than welcome, especially testing on existing and other Eastron SDM units.
+Contributions are more than welcome, especially testing on supported units, and adding other Eastron SDM units.
