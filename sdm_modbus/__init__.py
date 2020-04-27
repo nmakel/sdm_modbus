@@ -1,5 +1,4 @@
 import enum
-import json
 
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadBuilder
@@ -160,36 +159,32 @@ class SDM:
         else:
             return {k: self.read(k) for k, v in self.registers.items()}
 
-    def pprint(self, as_json=False):
-        if as_json:
-            print("Input Registers:\n", json.dumps(self.read_all(registerType.INPUT), indent=4))
-            print("\nHolding Registers:\n", json.dumps(self.read_all(registerType.HOLDING), indent=4))
-        else:
-            print(f"{self}:")
+    def pprint(self):
+        print(f"{self}:")
 
-            print("\nInput Registers:")
-            for k, v in self.read_all(registerType.INPUT).items():
-                address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
+        print("\nInput Registers:")
+        for k, v in self.read_all(registerType.INPUT).items():
+            address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
 
-                if type(fmt) is list or type(fmt) is dict:
-                    print(f"\t{label}: {fmt[str(v)]}")
-                elif vtype is float:
-                    print(f"\t{label}: {v:.2f}{fmt}")
-                else:
-                    print(f"\t{label}: {v}{fmt}")
+            if type(fmt) is list or type(fmt) is dict:
+                print(f"\t{label}: {fmt[str(v)]}")
+            elif vtype is float:
+                print(f"\t{label}: {v:.2f}{fmt}")
+            else:
+                print(f"\t{label}: {v}{fmt}")
 
-            print("\nHolding Registers:")
-            for k, v in self.read_all(registerType.HOLDING).items():
-                address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
+        print("\nHolding Registers:")
+        for k, v in self.read_all(registerType.HOLDING).items():
+            address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
 
-                if type(fmt) is list:
-                    print(f"\t{label}: {fmt[v]}")
-                elif type(fmt) is dict:
-                    print(f"\t{label}: {fmt[str(v)]}")
-                elif vtype is float:
-                    print(f"\t{label}: {v:.2f}{fmt}")
-                else:
-                    print(f"\t{label}: {v}{fmt}")
+            if type(fmt) is list:
+                print(f"\t{label}: {fmt[v]}")
+            elif type(fmt) is dict:
+                print(f"\t{label}: {fmt[str(v)]}")
+            elif vtype is float:
+                print(f"\t{label}: {v:.2f}{fmt}")
+            else:
+                print(f"\t{label}: {v}{fmt}")
 
 
 class SDM120(SDM):
