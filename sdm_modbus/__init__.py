@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
-
 import enum
+import json
 
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadBuilder
@@ -161,32 +160,36 @@ class SDM:
         else:
             return {k: self.read(k) for k, v in self.registers.items()}
 
-    def pprint(self):
-        print(f"{self}:")
+    def pprint(self, as_json=False):
+        if as_json:
+            print("Input Registers:\n", json.dumps(self.read_all(registerType.INPUT), indent=4))
+            print("\nHolding Registers:\n", json.dumps(self.read_all(registerType.HOLDING), indent=4))
+        else:
+            print(f"{self}:")
 
-        print("\nInput Registers:")
-        for k, v in self.read_all(registerType.INPUT).items():
-            address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
+            print("\nInput Registers:")
+            for k, v in self.read_all(registerType.INPUT).items():
+                address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
 
-            if type(fmt) is list or type(fmt) is dict:
-                print(f"\t{label}: {fmt[str(v)]}")
-            elif vtype is float:
-                print(f"\t{label}: {v:.2f}{fmt}")
-            else:
-                print(f"\t{label}: {v}{fmt}")
+                if type(fmt) is list or type(fmt) is dict:
+                    print(f"\t{label}: {fmt[str(v)]}")
+                elif vtype is float:
+                    print(f"\t{label}: {v:.2f}{fmt}")
+                else:
+                    print(f"\t{label}: {v}{fmt}")
 
-        print("\nHolding Registers:")
-        for k, v in self.read_all(registerType.HOLDING).items():
-            address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
+            print("\nHolding Registers:")
+            for k, v in self.read_all(registerType.HOLDING).items():
+                address, length, rtype, dtype, vtype, label, fmt = self.registers[k]
 
-            if type(fmt) is list:
-                print(f"\t{label}: {fmt[v]}")
-            elif type(fmt) is dict:
-                print(f"\t{label}: {fmt[str(v)]}")
-            elif vtype is float:
-                print(f"\t{label}: {v:.2f}{fmt}")
-            else:
-                print(f"\t{label}: {v}{fmt}")
+                if type(fmt) is list:
+                    print(f"\t{label}: {fmt[v]}")
+                elif type(fmt) is dict:
+                    print(f"\t{label}: {fmt[str(v)]}")
+                elif vtype is float:
+                    print(f"\t{label}: {v:.2f}{fmt}")
+                else:
+                    print(f"\t{label}: {v}{fmt}")
 
 
 class SDM120(SDM):
@@ -202,23 +205,33 @@ class SDM120(SDM):
             "current": (0x0006, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Current", "A"),
             "power_active": (0x000c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Active)", "W"),
             "power_apparent": (0x0012, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Apparent)", "VA"),
-            "power_reactive": (0x0018, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Reactive)", "VA"),
+            "power_reactive": (0x0018, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Reactive)", "VAr"),
             "pfactor": (0x001e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power Factor", ""),
             "phase_angle": (0x0024, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Phase Angle", "°"),
             "frequency": (0x0046, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Frequency", "Hz"),
             "import_energy_active": (0x0048, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Imported Energy (Active)", "kWh"),
             "export_energy_active": (0x004a, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Imported Energy (Active)", "kWh"),
-            "import_energy_reactive": (0x004c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Imported Energy (Reactive)", "kVAh"),
-            "export_energy_reactive": (0x004e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Exported Energy (Reactive)", "kVAh"),
+            "import_energy_reactive": (0x004c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Imported Energy (Reactive)", "kVArh"),
+            "export_energy_reactive": (0x004e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Exported Energy (Reactive)", "kVArh"),
+            "total_demand_power_active": (0x0054, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Demand Power (Active)", "W"),
+            "maximum_total_demand_power_active": (0x0056, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Power (Active)", "W"),           
+            "import_demand_power_active": (0x0058, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Import Demand Power (Active)", "W"),
+            "maximum_import_demand_power_active": (0x005a, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Import Demand Power (Active)", "W"),
+            "export_demand_power_active": (0x005c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Export Demand Power (Active)", "W"),
+            "maximum_export_demand_power_active": (0x005e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Export Demand Power (Active)", "W"),
+            "total_demand_current": (0x0102, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Demand Current", "A"),
+            "maximum_total_demand_current": (0x0108, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Current", "A"),
             "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh"),
-            "total_energy_reactive": (0x0160, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVAh"),
+            "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh"),
+            
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s"),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s"),
-            "meter_id": (0x0014, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Meter ID", ""),
             "relay_pulse_width": (0x000c, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Relay Pulse Width", "ms"),
             "network_parity_stop": (0x0012, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Network Parity Stop", [
                 "N-1", "E-1", "O-1", "N-2"]),
-            "baud": (0x001c, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Baud Rate", [2400, 4800, 9600, -1, -1, 1200]),
+            "meter_id": (0x0014, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Meter ID", ""),
+            "baud": (0x001c, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Baud Rate", [
+                2400, 4800, 9600, -1, -1, 1200]),
             "p1_output_mode": (0x0056, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "P1 Output Mode", [
                 0x0, "Import Energy (Active)", "Import + Export Energy (Active)", 0x3, "Export Energy (Active)",
                 "Import Energy (Reactive)", "Import + Export Energy (Reactive)", 0x7, "Export Energy (Reactive)"]),
@@ -309,11 +322,13 @@ class SDM630(SDM):
             "total_energy_apparent": (0x0050, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Apparent)", ""),
             "total_energy_reactive": (0x0160, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVAh"),
             "total_current": (0x0052, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Current", ""),
+            
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s"),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s"),
             "system_voltage": (0x0006, 2, registerType.HOLDING, registerDataType.FLOAT32, float, "System Voltage", "V"),
             "system_current": (0x0008, 2, registerType.HOLDING, registerDataType.FLOAT32, float, "System Current", "A"),
-            "system_type": (0x000a, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "System Type", [-1, "1P2W", "3P3W", "3P4W"]),
+            "system_type": (0x000a, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "System Type", [
+                -1, "1P2W", "3P3W", "3P4W"]),
             "relay_pulse_width": (0x000c, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Relay Pulse Width", "ms"),
             "network_parity_stop": (0x0012, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Network Parity Stop", [
                 "N-1", "E-1", "O-1", "N-2"]),

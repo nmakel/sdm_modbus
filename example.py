@@ -13,5 +13,5 @@ if __name__ == "__main__":
 
     meter = sdm_modbus.SDM120(host=args.host, port=args.port, unit=args.unit)
 
-    print(meter.read_all())
+    meter.pprint(as_json=True)
     meter.pprint()
