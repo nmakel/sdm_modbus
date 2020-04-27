@@ -201,7 +201,7 @@ class SDM120(SDM):
             "power_active": (0x000c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Active)", "W"),
             "power_apparent": (0x0012, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Apparent)", "VA"),
             "power_reactive": (0x0018, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power (Reactive)", "VAr"),
-            "pfactor": (0x001e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power Factor", ""),
+            "power_factor": (0x001e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Power Factor", ""),
             "phase_angle": (0x0024, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Phase Angle", "°"),
             "frequency": (0x0046, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Frequency", "Hz"),
             "import_energy_active": (0x0048, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Imported Energy (Active)", "kWh"),
@@ -209,7 +209,7 @@ class SDM120(SDM):
             "import_energy_reactive": (0x004c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Imported Energy (Reactive)", "kVArh"),
             "export_energy_reactive": (0x004e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Exported Energy (Reactive)", "kVArh"),
             "total_demand_power_active": (0x0054, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Demand Power (Active)", "W"),
-            "maximum_total_demand_power_active": (0x0056, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Power (Active)", "W"),           
+            "maximum_total_demand_power_active": (0x0056, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Power (Active)", "W"),
             "import_demand_power_active": (0x0058, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Import Demand Power (Active)", "W"),
             "maximum_import_demand_power_active": (0x005a, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Import Demand Power (Active)", "W"),
             "export_demand_power_active": (0x005c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Export Demand Power (Active)", "W"),
@@ -218,7 +218,7 @@ class SDM120(SDM):
             "maximum_total_demand_current": (0x0108, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Current", "A"),
             "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh"),
             "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh"),
-            
+
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s"),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s"),
             "relay_pulse_width": (0x000c, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Relay Pulse Width", "ms"),
@@ -265,9 +265,9 @@ class SDM630(SDM):
             "p1_power_reactive": (0x0018, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Power (Reactive)", "VA"),
             "p2_power_reactive": (0x001A, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Power (Reactive)", "VA"),
             "p3_power_reactive": (0x001C, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Power (Reactive)", "VA"),
-            "p1_pfactor": (0x001e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Power Factor", ""),
-            "p2_pfactor": (0x0020, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Power Factor", ""),
-            "p3_pfactor": (0x0022, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Power Factor", ""),
+            "p1_power_factor": (0x001e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Power Factor", ""),
+            "p2_power_factor": (0x0020, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Power Factor", ""),
+            "p3_power_factor": (0x0022, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Power Factor", ""),
             "p1_phase_angle": (0x0024, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Phase Angle", "°"),
             "p2_phase_angle": (0x0026, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Phase Angle", "°"),
             "p3_phase_angle": (0x0028, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Phase Angle", "°"),
@@ -317,7 +317,7 @@ class SDM630(SDM):
             "total_energy_apparent": (0x0050, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Apparent)", ""),
             "total_energy_reactive": (0x0160, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVAh"),
             "total_current": (0x0052, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Current", ""),
-            
+
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s"),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s"),
             "system_voltage": (0x0006, 2, registerType.HOLDING, registerDataType.FLOAT32, float, "System Voltage", "V"),

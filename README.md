@@ -133,7 +133,7 @@ Read all input registers by passing the `sdm_modbus.registerType.INPUT` enum to 
         "power_active": -1673.800048828125,
         "power_apparent": 1797.5904541015625,
         "power_reactive": -655.4000244140625,
-        "pfactor": -0.9311425685882568,
+        "power_factor": -0.9311425685882568,
         "phase_angle": 0.0,
         "frequency": 50.0,
         "import_energy_active": 1556.35595703125,
