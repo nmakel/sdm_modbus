@@ -95,7 +95,7 @@ class SDM:
             return f"<{self.__class__.__module__}.{self.__class__.__name__} object at {hex(id(self))}>"
 
     def _read_input_registers(self, address, length):
-        for i in range(RETRIES):
+        for i in range(self.retries):
             result = self.client.read_input_registers(address=address, count=length, unit=self.unit)
 
             if isinstance(result, ReadInputRegistersResponse):
@@ -104,7 +104,7 @@ class SDM:
         return None
 
     def _read_holding_registers(self, address, length):
-        for i in range(RETRIES):
+        for i in range(self.retries):
             result = self.client.read_holding_registers(address=address, count=length, unit=self.unit)
 
             if isinstance(result, ReadHoldingRegistersResponse):
