@@ -24,4 +24,29 @@ if __name__ == "__main__":
     if args.json:
         print(json.dumps(meter.read_all(), indent=4))
     else:
-        meter.pprint()
+        print(f"{meter}:")
+        print("\nInput Registers:")
+
+        for k, v in meter.read_all(sdm_modbus.registerType.INPUT).items():
+            address, length, rtype, dtype, vtype, label, fmt = meter.registers[k]
+
+            if type(fmt) is list or type(fmt) is dict:
+                print(f"\t{label}: {fmt[str(v)]}")
+            elif vtype is float:
+                print(f"\t{label}: {v:.2f}{fmt}")
+            else:
+                print(f"\t{label}: {v}{fmt}")
+
+        print("\nHolding Registers:")
+
+        for k, v in meter.read_all(sdm_modbus.registerType.HOLDING).items():
+            address, length, rtype, dtype, vtype, label, fmt = meter.registers[k]
+
+            if type(fmt) is list:
+                print(f"\t{label}: {fmt[v]}")
+            elif type(fmt) is dict:
+                print(f"\t{label}: {fmt[str(v)]}")
+            elif vtype is float:
+                print(f"\t{label}: {v:.2f}{fmt}")
+            else:
+                print(f"\t{label}: {v}{fmt}")
