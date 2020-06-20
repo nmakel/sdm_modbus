@@ -36,7 +36,7 @@ optional arguments:
 Output:
 
 ```
-SDM120(10.0.0.123:502, unit=0x1):
+SDM120(10.0.0.123:502, connectionType.TCP: timeout=1, retries=3, unit=0x1):
 
 Input Registers:
     Voltage: 237.00V
@@ -113,7 +113,7 @@ Printing the class yields basic device parameters:
 
 ```
     >>> device
-    SDM120(10.0.0.123:502, unit=0x1)
+    SDM120(10.0.0.123:502, connectionType.TCP: timeout=1, retries=3, unit=0x1):
 ```
 
 Reading a single input register by name:
