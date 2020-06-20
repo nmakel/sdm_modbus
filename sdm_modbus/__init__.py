@@ -153,7 +153,6 @@ class SDM:
     def _read_all(self, values, rtype):
         addr_min = False
         addr_max = False
-        addr_type = False
 
         for k, v in values.items():
             v_addr = v[0]
