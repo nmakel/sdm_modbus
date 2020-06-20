@@ -98,7 +98,7 @@ Connecting to the meter:
     # SDM120 over ModbusTCP
     >>> device = sdm_modbus.SDM120(host="10.0.0.123", port=502)
     
-    # DM630 over Modbus RTU
+    # SDM630 over Modbus RTU
     >>> device = sdm_modbus.SDM630(device="/dev/ttyUSB0", baud=9600)
 ```
 
