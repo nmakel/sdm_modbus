@@ -172,14 +172,12 @@ If you need more information about a particular register, to look up the units o
 
 ```
     >>> device.registers["voltage"]
-        # address, length, type, datatype, valuetype, name, unit
-        (0, 2, <registerType.INPUT: 1>, <registerDataType.FLOAT32: 11>, <class 'float'>, 'Voltage', 'V'))
+        # address, length, type, datatype, valuetype, name, unit, batching
+        (0, 2, <registerType.INPUT: 1>, <registerDataType.FLOAT32: 11>, <class 'float'>, 'Voltage', 'V', 1)
 
     >>> device.registers["p1_divisor"]
-        (
-            63760, 2, <registerType.HOLDING: 2>, <registerDataType.FLOAT32: 11>, <class 'int'>, 
-            'P1 Divisor', ['0.001kWh/imp', '0.01kWh/imp', '0.1kWh/imp', '1kWh/imp']
-        )
+        # address, length, type, datatype, valuetype, name, unit, batching
+        (63760, 2, <registerType.HOLDING: 2>, <registerDataType.FLOAT32: 11>, <class 'int'>, 'P1 Divisor', ['0.001kWh/imp', '0.01kWh/imp', '0.1kWh/imp', '1kWh/imp'], 2)
 ```
 
 Writing to holding registers is also possible. Setting a new baud rate, for example:
