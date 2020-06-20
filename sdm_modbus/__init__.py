@@ -173,10 +173,10 @@ class SDM:
         length = addr_max - addr_min
 
         try:
-            if rtype == registerType.HOLDING:
-                data = self._read_holding_registers(offset, length)
-            elif rtype == registerType.INPUT:
+            if rtype == registerType.INPUT:
                 data = self._read_input_registers(offset, length)
+            elif rtype == registerType.HOLDING:
+                data = self._read_holding_registers(offset, length)
             else:
                 raise NotImplementedError(rtype)
 
