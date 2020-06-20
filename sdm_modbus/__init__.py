@@ -290,7 +290,6 @@ class SDM120(SDM):
                 0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 2),
             "indicator_mode": (0xf930, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Pulse/LED Indicator Mode", [
                 "Import + Export Energy (Active)", "Import Energy (Active)", "Export Energy (Active)"], 2)
-
         }
 
 
