@@ -88,9 +88,9 @@ class SDM:
 
     def __repr__(self):
         if self.mode == connectionType.RTU:
-            return f"{self.model}({self.device}, {self.mode}: stopbits={self.stopbits}, parity={self.parity}, baud={self.baud}, timeout={self.timeout}, unit={hex(self.unit)})"
+            return f"{self.model}({self.device}, {self.mode}: stopbits={self.stopbits}, parity={self.parity}, baud={self.baud}, timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
         elif self.mode == connectionType.TCP:
-            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, unit={hex(self.unit)})"
+            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
         else:
             return f"<{self.__class__.__module__}.{self.__class__.__name__} object at {hex(id(self))}>"
 
@@ -99,6 +99,9 @@ class SDM:
             result = self.client.read_input_registers(address=address, count=length, unit=self.unit)
 
             if isinstance(result, ReadInputRegistersResponse):
+                if len(result.registers) != length:
+                    continue
+                
                 return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=Endian.Big, wordorder=Endian.Big)
 
         return None
@@ -108,6 +111,9 @@ class SDM:
             result = self.client.read_holding_registers(address=address, count=length, unit=self.unit)
 
             if isinstance(result, ReadHoldingRegistersResponse):
+                if len(result.registers) != length:
+                    continue
+
                 return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=Endian.Big, wordorder=Endian.Big)
 
         return None
@@ -265,8 +271,8 @@ class SDM120(SDM):
             "maximum_export_demand_power_active": (0x005e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Export Demand Power (Active)", "W", 2),
             "total_demand_current": (0x0102, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Demand Current", "A", 3),
             "maximum_total_demand_current": (0x0108, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Current", "A", 3),
-            "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh", 4),
-            "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh", 4),
+            "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh", 3),
+            "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh", 3),
 
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s", 1),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s", 1),
