@@ -190,11 +190,8 @@ class SDM:
 
                 results[k] = self._decode_value(data, length, dtype, vtype)
                 offset += length
-
         except NotImplementedError:
             raise
-        except AttributeError:
-            return results
 
         return results
 
