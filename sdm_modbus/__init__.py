@@ -388,7 +388,7 @@ class SDM630(SDM):
                 "N-1", "E-1", "O-1", "N-2"], 1),
             "meter_id": (0x0014, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Meter ID", "", 1),
             "baud": (0x001c, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Baud Rate", [
-                2400, 4800, 9600, 19200, 38400]),
+                2400, 4800, 9600, 19200, 38400], 1),
             "system_power": (0x0024, 2, registerType.HOLDING, registerDataType.FLOAT32, float, "System Power", "W", 1),
             "p1_divisor": (0xf910, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "P1 Divisor", [
                 "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp", "10kWh/imp", "100kWh/imp"], 2)
