@@ -276,8 +276,8 @@ class SDM120(SDM):
             "maximum_export_demand_power_active": (0x005e, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Export Demand Power (Active)", "W", 2),
             "total_demand_current": (0x0102, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Demand Current", "A", 3),
             "maximum_total_demand_current": (0x0108, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Maximum Total Demand Current", "A", 3),
-            "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh", 3),
-            "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh", 3),
+            "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh", 4),
+            "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh", 4),
 
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s", 1),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s", 1),
@@ -289,14 +289,14 @@ class SDM120(SDM):
                 2400, 4800, 9600, -1, -1, 1200], 1),
             "p1_output_mode": (0x0056, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "P1 Output Mode", [
                 0x0, "Import Energy (Active)", "Import + Export Energy (Active)", 0x3, "Export Energy (Active)",
-                "Import Energy (Reactive)", "Import + Export Energy (Reactive)", 0x7, "Export Energy (Reactive)"], 1),
-            "display_scroll_timing": (0xf900, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Display Scroll Timing", "s", 2),
+                "Import Energy (Reactive)", "Import + Export Energy (Reactive)", 0x7, "Export Energy (Reactive)"], 2),
+            "display_scroll_timing": (0xf900, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Display Scroll Timing", "s", 3),
             "p1_divisor": (0xf910, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "P1 Divisor", [
-                "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp"], 2),
+                "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp"], 3),
             "measurement_mode": (0xf920, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Measurement Mode", [
-                0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 2),
+                0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 3),
             "indicator_mode": (0xf930, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Pulse/LED Indicator Mode", [
-                "Import + Export Energy (Active)", "Import Energy (Active)", "Export Energy (Active)"], 2)
+                "Import + Export Energy (Active)", "Import Energy (Active)", "Export Energy (Active)"], 3)
         }
 
 
