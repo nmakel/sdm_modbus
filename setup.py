@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sdm_modbus",
-    version="0.3.0",
+    version="0.4.0",
     description="Eastron SDM Modbus parser library",
     long_description=long_description,
     long_description_content_type="text/markdown",
