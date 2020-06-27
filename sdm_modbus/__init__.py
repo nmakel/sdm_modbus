@@ -380,7 +380,7 @@ class SDM630(SDM):
             "voltage_ll_thd": (0x0154, 2, registerType.INPUT, registerDataType.FLOAT32, float, "L-L Voltage THD", "%", 4),
             "total_energy_active": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh", 4),
             "total_energy_reactive": (0x0158, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh", 4),
-            
+
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s", 1),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s", 1),
             "system_voltage": (0x0006, 2, registerType.HOLDING, registerDataType.FLOAT32, float, "System Voltage", "V", 1),
