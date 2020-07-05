@@ -207,7 +207,7 @@ class SDM:
         return results
 
     def _write(self, value, data):
-        address, length, rtype, dtype, vtype, label, fmt = value
+        address, length, rtype, dtype, vtype, label, fmt, batch = v
 
         try:
             if rtype == registerType.HOLDING:
