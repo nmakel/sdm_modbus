@@ -4,6 +4,7 @@ sdm_modbus is a python library that collects data from Eastron SDM single- and t
 
 Supported devices:
 * SDM120
+* SDM230
 * SDM630
 
 ## Installation
@@ -98,6 +99,9 @@ Connecting to the meter:
     # SDM120 over ModbusTCP
     >>> device = sdm_modbus.SDM120(host="10.0.0.123", port=502)
     
+    # SDM230 over ModbusTCP
+    >>> device = sdm_modbus.SDM230(host="10.0.0.123", port=502)
+
     # SDM630 over Modbus RTU
     >>> device = sdm_modbus.SDM630(device="/dev/ttyUSB0", baud=9600)
 ```
