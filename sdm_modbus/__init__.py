@@ -346,7 +346,7 @@ class SDM230(SDM):
                 "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp"], 3),
             "measurement_mode": (0xf920, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Measurement Mode", [
                 0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 3),
-            "running_time": (0xf930, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Running Time", "h"
+            "running_time": (0xf930, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Running Time", "h")
         }
 
 
