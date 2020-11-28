@@ -59,8 +59,11 @@ class SDM:
         if stopbits:
             self.stopbits = stopbits
 
-        if parity:
-            self.parity = parity
+        if (parity
+                and parity.upper() in ["N", "E", "O"]):
+            self.parity = parity.upper()
+        else
+            self.parity = False
 
         if baud:
             self.baud = baud
