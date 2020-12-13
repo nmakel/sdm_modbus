@@ -62,7 +62,7 @@ class SDM:
         if (parity
                 and parity.upper() in ["N", "E", "O"]):
             self.parity = parity.upper()
-        else
+        else:
             self.parity = False
 
         if baud:
