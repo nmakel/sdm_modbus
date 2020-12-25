@@ -1,6 +1,6 @@
 # sdm_modbus
 
-sdm_modbus is a python library that collects data from Eastron SDM single- and three-phase kWh meters over Modbus or ModbusTCP.
+sdm_modbus is a python library that collects data from Eastron SDM single- and three-phase kWh meters over Modbus RTU or Modbus TCP.
 
 Supported devices:
 * SDM120
@@ -19,18 +19,18 @@ or install the package from PyPi:
 
 ## Usage
 
-The script `example.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **ModbusTCP**. To display values as a JSON object, add `--json`.
+The script `example.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP**. To display values as a JSON object, add `--json`.
 
 ```
 usage: example.py [-h] [--unit UNIT] [--json] host port
 
 positional arguments:
-  host         ModbusTCP address
-  port         ModbusTCP port
+  host         Modbus TCP address
+  port         Modbus TCP port
 
 optional arguments:
   -h, --help   show this help message and exit
-  --unit UNIT  Modbus unit
+  --unit UNIT  Modbus device address
   --json       Output as JSON
 ```
 
@@ -77,30 +77,27 @@ Holding Registers:
     Pulse/LED Indicator Mode: Import + Export Energy (Active)
 ```
 
-## Examples
+### Connecting
 
-If you wish to use ModbusTCP the following parameters are relevant:
+If you wish to use Modbus TCP the following parameters are relevant:
 
-`host = IP or DNS name of your ModbusTCP gateway, required`  
-`port = listening port of the ModbusTCP gateway, required`  
-`unit = Modbus device id, default=1, optional`
+`host = IP or DNS name of your Modbus TCP gateway, required`  
+`port = TCP port of the Modbus TCP gateway, required`  
+`unit = Modbus device address, default=1, optional`
 
-While if you are using a serial Modbus connection you can specify:
+While if you are using a Modbus RTU connection you can specify:
 
 `device = path to serial device, e.g. /dev/ttyUSB0, required`  
-`baud = baud rate of your SDM unit, defaults to product default, optional`  
-`unit = Modbus unit id, defaults to 1, optional`
+`baud = baud rate of your SDM unit, defaults to factory default, optional`  
+`unit = Modbus device address, defaults to 1, optional`
 
 Connecting to the meter:
 
 ```
     >>> import sdm_modbus
 
-    # SDM120 over ModbusTCP
+    # SDM120 over Modbus TCP
     >>> device = sdm_modbus.SDM120(host="10.0.0.123", port=502)
-    
-    # SDM230 over ModbusTCP
-    >>> device = sdm_modbus.SDM230(host="10.0.0.123", port=502)
 
     # SDM630 over Modbus RTU
     >>> device = sdm_modbus.SDM630(device="/dev/ttyUSB0", baud=9600)
