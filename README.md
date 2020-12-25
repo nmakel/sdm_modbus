@@ -169,6 +169,19 @@ Read all input registers by passing the `sdm_modbus.registerType.INPUT` enum to 
     }
 ```
 
+### Writing Registers
+
+Writing to holding registers is also possible. Setting a new baud rate, for example:
+
+```
+    >>> device.write("baud", 2)
+    WriteMultipleRegisterResponse (28,2)
+```
+
+You will need to **enable setup mode on your device** by pressing the setup button for 5 seconds, otherwise you will receive a `Exception Response(134, 6, GatewayNoResponse)` or similar.
+
+### Register Details
+
 If you need more information about a particular register, to look up the units or enumerations, for example:
 
 ```
@@ -180,15 +193,6 @@ If you need more information about a particular register, to look up the units o
         # address, length, type, datatype, valuetype, name, unit, batching
         (63760, 2, <registerType.HOLDING: 2>, <registerDataType.FLOAT32: 11>, <class 'int'>, 'P1 Divisor', ['0.001kWh/imp', '0.01kWh/imp', '0.1kWh/imp', '1kWh/imp'], 2)
 ```
-
-Writing to holding registers is also possible. Setting a new baud rate, for example:
-
-```
-    >>> device.write("baud", 2)
-    WriteMultipleRegisterResponse (28,2)
-```
-
-**Remember:** you will need to enable setup mode on your device by pressing the setup button for 5 seconds. You will receive a `Exception Response(134, 6, GatewayNoResponse)` or similar, otherwise.
 
 ## Contributing
 
