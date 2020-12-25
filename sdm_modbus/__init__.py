@@ -50,44 +50,67 @@ class SDM:
     def __init__(
         self, host=False, port=False,
         device=False, stopbits=False, parity=False, baud=False,
-        timeout=TIMEOUT, retries=RETRIES, unit=UNIT
+        timeout=TIMEOUT, retries=RETRIES, unit=UNIT,
+        parent=False
     ):
-        self.host = host
-        self.port = port
-        self.device = device
+        if parent:
+            self.client = parent.client
+            self.mode = parent.mode
+            self.timeout = parent.timeout
+            self.retries = parent.retries
 
-        if stopbits:
-            self.stopbits = stopbits
+            if unit:
+                self.unit = unit
+            else:
+                self.unit = parent.unit
 
-        if (parity
-                and parity.upper() in ["N", "E", "O"]):
-            self.parity = parity.upper()
+            if self.mode is connectionType.RTU:
+                self.device = parent.device
+                self.stopbits = parent.stopbits
+                self.parity = parent.parity
+                self.baud = parent.baud
+            elif self.mode is connectionType.TCP:
+                self.host = parent.host
+                self.port = parent.port
+            else:
+                raise NotImplementedError(self.mode)
         else:
-            self.parity = False
+            self.host = host
+            self.port = port
+            self.device = device
 
-        if baud:
-            self.baud = baud
+            if stopbits:
+                self.stopbits = stopbits
 
-        self.timeout = timeout
-        self.retries = retries
-        self.unit = unit
+            if (parity
+                    and parity.upper() in ["N", "E", "O"]):
+                self.parity = parity.upper()
+            else:
+                self.parity = False
 
-        if device:
-            self.mode = connectionType.RTU
-            self.client = ModbusSerialClient(
-                method="rtu",
-                port=self.device,
-                stopbits=self.stopbits,
-                parity=self.parity,
-                baudrate=self.baud,
-                timeout=self.timeout)
-        else:
-            self.mode = connectionType.TCP
-            self.client = ModbusTcpClient(
-                host=self.host,
-                port=self.port,
-                timeout=self.timeout
-            )
+            if baud:
+                self.baud = baud
+
+            self.timeout = timeout
+            self.retries = retries
+            self.unit = unit
+
+            if device:
+                self.mode = connectionType.RTU
+                self.client = ModbusSerialClient(
+                    method="rtu",
+                    port=self.device,
+                    stopbits=self.stopbits,
+                    parity=self.parity,
+                    baudrate=self.baud,
+                    timeout=self.timeout)
+            else:
+                self.mode = connectionType.TCP
+                self.client = ModbusTcpClient(
+                    host=self.host,
+                    port=self.port,
+                    timeout=self.timeout
+                )
 
     def __repr__(self):
         if self.mode == connectionType.RTU:

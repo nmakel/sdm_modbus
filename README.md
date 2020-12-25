@@ -117,6 +117,20 @@ Printing the class yields basic device parameters:
     SDM120(10.0.0.123:502, connectionType.TCP: timeout=1, retries=3, unit=0x1):
 ```
 
+### Connecting to Multiple Devices
+
+Re-using an existing RTU or TCP connection is possible by providing an already connected device as `parent` when creating a new instance. This may be necessary if the Modbus TCP gateway only accepts a limited number of connections, or you wish to address multiple RTU devices on the same bus. For example:
+
+```
+    # Connect to a SDM630 over Modbus TCP
+    >>> device_1 = sdm_modbus.SDM630(host="10.0.0.123", port=502, unit=1)
+
+    # Connect to a SDM630 using the existing connection
+    >>> device_2 = sdm_modbus.SDM630(parent=device_1, unit=2)
+```
+
+### Reading Registers
+
 Reading a single input register by name:
 
 ```
