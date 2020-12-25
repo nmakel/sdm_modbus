@@ -3,9 +3,9 @@
 sdm_modbus is a python library that collects data from Eastron SDM single- and three-phase kWh meters over Modbus RTU or Modbus TCP.
 
 Supported devices:
-* SDM120
-* SDM230
-* SDM630
+* [Eastron SDM120M](https://www.eastroneurope.com/products/view/sdm120modbus)
+* [Eastron SDM230M](https://www.eastroneurope.com/products/view/sdm230modbus)
+* [Eastron SDM630M](https://www.eastroneurope.com/products/view/sdm630modbus)
 
 ## Installation
 
