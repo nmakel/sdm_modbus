@@ -1,4 +1,5 @@
 import enum
+import time
 
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadBuilder
@@ -122,6 +123,11 @@ class SDM:
 
     def _read_input_registers(self, address, length):
         for i in range(self.retries):
+            if not self.connected():
+                self.connect()
+                time.sleep(0.1)
+                continue
+
             result = self.client.read_input_registers(address=address, count=length, unit=self.unit)
 
             if not isinstance(result, ReadInputRegistersResponse):
@@ -135,6 +141,11 @@ class SDM:
 
     def _read_holding_registers(self, address, length):
         for i in range(self.retries):
+            if not self.connected():
+                self.connect()
+                time.sleep(0.1)
+                continue
+
             result = self.client.read_holding_registers(address=address, count=length, unit=self.unit)
 
             if not isinstance(result, ReadHoldingRegistersResponse):
