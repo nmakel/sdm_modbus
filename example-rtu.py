@@ -4,14 +4,13 @@ import argparse
 import json
 import sdm_modbus
 
-# call script with following command for example: python3 example.py /dev/ttyUSB1 --baud=2400
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument("device", type=str, help="Modbus device")
-    argparser.add_argument("--stopbits", type=int, default=False, help="Stop bits")
-    argparser.add_argument("--parity", type=str, default=False, choices=["N", "E", "O"], help="Parity")
-    argparser.add_argument("--baud", type=int, default=False, help="Baud rate")
+    argparser.add_argument("--stopbits", type=int, default=1, help="Stop bits")
+    argparser.add_argument("--parity", type=str, default="N", choices=["N", "E", "O"], help="Parity")
+    argparser.add_argument("--baud", type=int, default=2400, help="Baud rate")
     argparser.add_argument("--timeout", type=int, default=1, help="Connection timeout")
     argparser.add_argument("--unit", type=int, default=1, help="Modbus unit")
     argparser.add_argument("--json", action="store_true", default=False, help="Output as JSON")
