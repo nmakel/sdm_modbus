@@ -19,10 +19,10 @@ or install the package from PyPi:
 
 ## Usage
 
-The script `example.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP**. To display values as a JSON object, add `--json`.
+The script `example-tcp.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP**. To display values as a JSON object, add `--json`.
 
 ```
-usage: example.py [-h] [--unit UNIT] [--json] host port
+usage: example-tcp.py [-h] [--unit UNIT] [--json] host port
 
 positional arguments:
   host         Modbus TCP address
