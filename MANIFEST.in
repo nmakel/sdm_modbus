@@ -1,3 +1,0 @@
-include example-tcp.py
-include example-rtu.py
-include LICENSE
