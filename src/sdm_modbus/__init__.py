@@ -487,7 +487,7 @@ class SDM630(SDM):
             "p3_current_thd": (0x00f4, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Current THD", "%", 3),
             "voltage_ln_thd": (0x00f8, 2, registerType.INPUT, registerDataType.FLOAT32, float, "L-N Voltage THD", "%", 3),
             "current_thd": (0x00fa, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Current THD", "%", 3),
-            "total_pf": (0x00fe, 2,  registerType.INPUT, registerDataType.FLOAT32, float, "Total Power Factor", "", 3),
+            "total_pf": (0x00fe, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Power Factor", "", 3),
             "p1_demand_current": (0x0102, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Demand Current", "A", 3),
             "p2_demand_current": (0x0104, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Demand Current", "A", 3),
             "p3_demand_current": (0x0106, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Demand Current", "A", 3),
@@ -517,7 +517,7 @@ class SDM630(SDM):
             "p3_import_energy_reactive": (0x0176, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Import Energy (Reactive)", "kVArh", 4),
             "p1_energy_reactive": (0x0178, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Total Energy (Reactive)", "kVArh", 4),
             "p2_energy_reactive": (0x017a, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Total Energy (Reactive)", "kVArh", 4),
-            "p3_energy_reactive": (0x017c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Total Energy (Reactive)", "kVArh",4),
+            "p3_energy_reactive": (0x017c, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Total Energy (Reactive)", "kVArh", 4),
 
             "demand_time": (0x0000, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Time", "s", 1),
             "demand_period": (0x0002, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Demand Period", "s", 1),
