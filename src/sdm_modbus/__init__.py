@@ -279,7 +279,7 @@ class SDM:
         registers = {k: v for k, v in self.registers.items() if (v[2] == rtype)}
         results = {}
 
-        for batch in range(1, len(registers)):
+        for batch in range(1, max(len(registers), 2)):
             register_batch = {k: v for k, v in registers.items() if (v[7] == batch)}
 
             if not register_batch:
@@ -288,6 +288,32 @@ class SDM:
             results.update(self._read_all(register_batch, rtype))
 
         return results
+
+
+class SDM72(SDM):
+
+    def __init__(self, *args, **kwargs):
+        self.model = "SDM72"
+        self.baud = 9600
+
+        super().__init__(*args, **kwargs)
+
+        self.registers = {
+            "total_system_power": (0x0034, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total system power", "W", 1),
+            "total_import_kwh": (0x0048, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Import KWh", "kWh", 1),
+            "total_export_kwh": (0x004A, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total Export KWh", "kWh", 1),
+            "total_kwh": (0x0156, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total KWh", "kWh", 2),
+            "resettable_total_active_energy": (0x0180, 2, registerType.INPUT, registerDataType.FLOAT32, float, "resettable total active energy", "kWh", 3),
+            "resettable_import_active_energy": (0x0184, 2, registerType.INPUT, registerDataType.FLOAT32, float, "resettable import active energy", "kWh", 3),
+            "resettable_export_active_energy": (0x0186, 2, registerType.INPUT, registerDataType.FLOAT32, float, "resettable export active energy", "kWh", 3),
+            "total_import_active_power": (0x0500, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total import active power", "W", 4),
+            "total_export_active_power": (0x0502, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Total export active power", "W", 4),
+
+            "network_parity_stop": (0x0012, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Network Parity Stop", [
+                "N-1", "E-1", "O-1", "N-2"], 1),
+            "modbus_address": (0x0014, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Modbus Address", "", 1),
+            "password": (0x0018, 2, registerType.HOLDING, registerDataType.FLOAT32, int, "Password", "", 1),
+        }
 
 
 class SDM120(SDM):
@@ -461,7 +487,7 @@ class SDM630(SDM):
             "p3_current_thd": (0x00f4, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Current THD", "%", 3),
             "voltage_ln_thd": (0x00f8, 2, registerType.INPUT, registerDataType.FLOAT32, float, "L-N Voltage THD", "%", 3),
             "current_thd": (0x00fa, 2, registerType.INPUT, registerDataType.FLOAT32, float, "Current THD", "%", 3),
-            "total_pf": (0x00fe, 2,  registerType.INPUT, registerDataType.FLOAT32, float, "Total Power Factor", "", 3), 
+            "total_pf": (0x00fe, 2,  registerType.INPUT, registerDataType.FLOAT32, float, "Total Power Factor", "", 3),
             "p1_demand_current": (0x0102, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P1 Demand Current", "A", 3),
             "p2_demand_current": (0x0104, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P2 Demand Current", "A", 3),
             "p3_demand_current": (0x0106, 2, registerType.INPUT, registerDataType.FLOAT32, float, "P3 Demand Current", "A", 3),
