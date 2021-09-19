@@ -1,6 +1,35 @@
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
+[tool.poetry]
+name = "sdm_modbus"
+version = "0.4.6"
+description = "Eastron SDM Modbus parser library"
+authors = ["nmakel"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/nmakel/sdm_modbus"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.7",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Natural Language :: English",
+    "Intended Audience :: Developers"
 ]
-build-backend = "setuptools.build_meta"
+packages = [
+    { include = "sdm_modbus", from = "src" }
+]
+
+[tool.poetry.urls]
+"Issue Tracker" = "https://github.com/nmakel/sdm_modbus/issues"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pymodbus = "^2.4.0"
+
+[tool.poetry.dev-dependencies]
+behave = "^1.2.6"
+tox = "^3.24.4"
+PyHamcrest = "^2.0.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
