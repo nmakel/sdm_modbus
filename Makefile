@@ -4,9 +4,12 @@ all: lint
 lint:
 	flake8 --ignore=E501,W503
 
+test:
+	poetry run tox
+
 .PHONY: release
 release:
-	python3 -m build
+	poetry build
 	python3 -m twine upload dist/*
 
 clean:
