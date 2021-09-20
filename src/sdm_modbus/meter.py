@@ -171,6 +171,10 @@ class Meter:
         try:
             if dtype == registerDataType.FLOAT32:
                 builder.add_32bit_float(data)
+            if dtype == registerDataType.INT32:
+                builder.add_32bit_int(data)
+            elif dtype == registerDataType.INT16:
+                builder.add_16bit_int(data)
             else:
                 raise NotImplementedError(dtype)
         except NotImplementedError:
@@ -182,6 +186,10 @@ class Meter:
         try:
             if dtype == registerDataType.FLOAT32:
                 return vtype(data.decode_32bit_float())
+            if dtype == registerDataType.INT32:
+                return vtype(data.decode_32bit_uint())
+            elif dtype == registerDataType.INT16:
+                return vtype(data.decode_16bit_int())
             else:
                 raise NotImplementedError(dtype)
         except NotImplementedError:
