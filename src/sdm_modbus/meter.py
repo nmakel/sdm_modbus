@@ -45,6 +45,8 @@ class Meter:
     parity = "N"
     baud = 38400
     registers = {}
+    wordorder = Endian.Big
+    byteorder = Endian.Big
 
 
     def __init__(
@@ -138,7 +140,7 @@ class Meter:
             if len(result.registers) != length:
                 continue
 
-            return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=Endian.Big, wordorder=Endian.Big)
+            return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=self.byteorder, wordorder=self.wordorder)
 
         return None
 
@@ -156,7 +158,7 @@ class Meter:
             if len(result.registers) != length:
                 continue
 
-            return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=Endian.Big, wordorder=Endian.Big)
+            return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=self.byteorder, wordorder=self.wordorder)
 
         return None
 
@@ -164,7 +166,7 @@ class Meter:
         return self.client.write_registers(address=address, values=value, unit=self.unit)
 
     def _encode_value(self, data, dtype):
-        builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        builder = BinaryPayloadBuilder(byteorder=self.byteorder, wordorder=self.wordorder)
 
         try:
             if dtype == registerDataType.FLOAT32:
