@@ -268,17 +268,20 @@ class Meter:
     def connected(self):
         return self.client.is_socket_open()
 
+    def get_scaling(self, key):
+        return 1
+
     def read(self, key):
         if key not in self.registers:
             raise KeyError(key)
 
-        return self._read(self.registers[key])
+        return self._read(self.registers[key]) * self.get_scaling(key)
 
     def write(self, key, data):
         if key not in self.registers:
             raise KeyError(key)
 
-        return self._write(self.registers[key], data)
+        return self._write(self.registers[key], data / self.get_scaling(key))
 
     def read_all(self, rtype=registerType.INPUT):
         registers = {k: v for k, v in self.registers.items() if (v[2] == rtype)}
@@ -292,5 +295,5 @@ class Meter:
 
             results.update(self._read_all(register_batch, rtype))
 
-        return results
+        return {k: v * self.get_scaling(k) for k, v in results.items() }
 
