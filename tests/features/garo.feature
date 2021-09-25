@@ -45,7 +45,7 @@ Feature: Reading SDM meter values
         | 32bit_int       |    1230    | p1_import_energy_active      |
         | 32bit_int       |    1340    | p2_import_energy_active      |
         | 32bit_int       |    1450    | p3_import_energy_active      |
-	| 8 registers     |    0       | padding		      |
+        | 8 registers     |    0       | padding                      |
         | 32bit_int       |    9430    | export_energy_active         |
         | 32bit_int       |    2230    | export_energy_reactive       |
 

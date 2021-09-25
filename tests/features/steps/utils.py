@@ -9,6 +9,8 @@ from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.datastore import ModbusSparseDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
 
+from pymodbus.constants import Endian
+from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.payload import BinaryPayloadBuilder
 
 import sdm_modbus
@@ -44,6 +46,7 @@ def step_impl(context, address):
                 func(eval(row['value']))
             else:
                 context.execute_steps("Given followed by {} initialized to {}".format(row['type'], row['value']))
+
 
     context.block.setValues(context.builder_address, context.builder.to_registers())
 
@@ -104,6 +107,12 @@ def step_impl(context):
     context.add_cleanup(context.meter.disconnect)
 
 
+@given('a GNM3D meter client')
+def step_impl(context):
+    context.meter = sdm_modbus.GNM3D(host="localhost", port=5020)
+    context.add_cleanup(context.meter.disconnect)
+
+
 @given('with raw value {}')
 def step_impl(context, value):
     assert context.builder_address
@@ -131,3 +140,8 @@ def step_impl(context, key, value):
 @then('the result key "{}" should be within {:f} of {:f}')
 def step_impl(context, key, delta, value):
     assert_that(context.result, has_entries(key, close_to(value, delta)))
+
+
+@then('the result key "{}" should be close to {:f}')
+def step_impl(context, key, value):
+    assert_that(context.result, has_entries(key, close_to(value, 0.00001)))
