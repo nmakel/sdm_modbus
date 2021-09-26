@@ -1,9 +1,9 @@
-from .meter import *
+from sdm_modbus import meter
 
-from pymodbus.constants import Endian
 
-class SDM(Meter):
+class SDM(meter.Meter):
     pass
+
 
 class SDM72(SDM):
 
