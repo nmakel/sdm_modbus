@@ -111,7 +111,7 @@ Test the connection:
     True
 ```
 
-Printing the class yields basic device parameters:
+Printing the object yields basic device parameters:
 
 ```
     >>> device
