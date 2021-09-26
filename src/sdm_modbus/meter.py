@@ -283,11 +283,14 @@ class Meter:
     def get_scaling(self, key):
         return 1
 
-    def read(self, key):
+    def read(self, key, scaling=False):
         if key not in self.registers:
             raise KeyError(key)
 
-        return self._read(self.registers[key]) * self.get_scaling(key)
+        if scaling:
+            return self._read(self.registers[key]) * self.get_scaling(key)
+        else:
+            return self._read(self.registers[key])
 
     def write(self, key, data):
         if key not in self.registers:
@@ -295,7 +298,7 @@ class Meter:
 
         return self._write(self.registers[key], data / self.get_scaling(key))
 
-    def read_all(self, rtype=registerType.INPUT):
+    def read_all(self, rtype=registerType.INPUT, scaling=False):
         registers = {k: v for k, v in self.registers.items() if (v[2] == rtype)}
         results = {}
 
@@ -307,5 +310,7 @@ class Meter:
 
             results.update(self._read_all(register_batch, rtype))
 
-        return {k: v * self.get_scaling(k) for k, v in results.items() }
-
+        if scaling:
+            return {k: v * self.get_scaling(k) for k, v in results.items()}
+        else:
+            return {k: v for k, v in results.items()}

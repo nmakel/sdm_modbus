@@ -124,7 +124,7 @@ def step_impl(context, address, value):
 
 @when('we read all values')
 def step_impl(context):
-    context.result = context.meter.read_all()
+    context.result = context.meter.read_all(scaling=True)
     print(context.result)
 
 
