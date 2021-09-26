@@ -48,20 +48,16 @@ class Meter:
     wordorder = Endian.Big
     byteorder = Endian.Big
 
+    def __init__(self, **kwargs):
+        parent = kwargs.get("parent")
 
-    def __init__(
-        self, **kwargs
-    ):
-        #host=False, port=False,
-        #device=False, stopbits=False, parity=False, baud=False,
-        #timeout=TIMEOUT, retries=RETRIES, unit=UNIT,
-
-        parent=kwargs.get('parent')
         if parent:
             self.client = parent.client
             self.mode = parent.mode
             self.timeout = parent.timeout
             self.retries = parent.retries
+
+            unit = kwargs.get("unit")
 
             if unit:
                 self.unit = unit
