@@ -8,9 +8,6 @@ from pymodbus.server.sync import ModbusTcpServer
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.datastore import ModbusSparseDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
-
-from pymodbus.constants import Endian
-from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.payload import BinaryPayloadBuilder
 
 import sdm_modbus
@@ -46,7 +43,6 @@ def step_impl(context, address):
                 func(eval(row['value']))
             else:
                 context.execute_steps("Given followed by {} initialized to {}".format(row['type'], row['value']))
-
 
     context.block.setValues(context.builder_address, context.builder.to_registers())
 

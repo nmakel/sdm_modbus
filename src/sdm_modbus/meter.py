@@ -1,15 +1,14 @@
 import enum
-
 import time
 
 from pymodbus.constants import Endian
 from pymodbus.client.sync import ModbusTcpClient
 from pymodbus.client.sync import ModbusSerialClient
-
 from pymodbus.payload import BinaryPayloadBuilder
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.register_read_message import ReadInputRegistersResponse
 from pymodbus.register_read_message import ReadHoldingRegistersResponse
+
 
 class connectionType(enum.Enum):
     RTU = 1
@@ -35,9 +34,11 @@ class registerDataType(enum.Enum):
     FLOAT32 = 11
     STRING = 12
 
+
 RETRIES = 3
 TIMEOUT = 1
 UNIT = 1
+
 
 class Meter:
     model = "Generic"
@@ -75,27 +76,33 @@ class Meter:
             else:
                 raise NotImplementedError(self.mode)
         else:
-            self.timeout = kwargs.get('timeout', TIMEOUT)
-            self.retries = kwargs.get('retries', RETRIES)
-            self.unit = kwargs.get('unit', UNIT)
+            self.timeout = kwargs.get("timeout", TIMEOUT)
+            self.retries = kwargs.get("retries", RETRIES)
+            self.unit = kwargs.get("unit", UNIT)
 
-            device = kwargs.get('device')
+            device = kwargs.get("device")
+
             if device:
                 self.device = device
-                stopbits = kwargs.get('stopbits')
+
+                stopbits = kwargs.get("stopbits")
+
                 if stopbits:
                     self.stopbits = stopbits
 
-                parity = kwargs.get('parity')
+                parity = kwargs.get("parity")
+
                 if (parity
                         and parity.upper() in ["N", "E", "O"]):
                     self.parity = parity.upper()
                 else:
                     self.parity = False
 
-                baud = kwargs.get('baud')
+                baud = kwargs.get("baud")
+
                 if baud:
                     self.baud = baud
+
                 self.mode = connectionType.RTU
                 self.client = ModbusSerialClient(
                     method="rtu",
@@ -103,10 +110,11 @@ class Meter:
                     stopbits=self.stopbits,
                     parity=self.parity,
                     baudrate=self.baud,
-                    timeout=self.timeout)
+                    timeout=self.timeout
+                )
             else:
-                self.host = kwargs.get('host')
-                self.port = kwargs.get('port', 502)
+                self.host = kwargs.get("host")
+                self.port = kwargs.get("port", 502)
                 self.mode = connectionType.TCP
                 self.client = ModbusTcpClient(
                     host=self.host,
