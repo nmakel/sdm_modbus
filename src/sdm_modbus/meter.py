@@ -42,10 +42,12 @@ UNIT = 1
 
 class Meter:
     model = "Generic"
+    registers = {}
+
     stopbits = 1
     parity = "N"
     baud = 38400
-    registers = {}
+
     wordorder = Endian.Big
     byteorder = Endian.Big
 
