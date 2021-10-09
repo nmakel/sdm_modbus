@@ -200,7 +200,7 @@ class Meter:
             raise
 
     def _read(self, value):
-        address, length, rtype, dtype, vtype, label, fmt, batch = value
+        address, length, rtype, dtype, vtype, label, fmt, batch, sf = value
 
         try:
             if rtype == registerType.INPUT:
@@ -246,7 +246,7 @@ class Meter:
                 return results
 
             for k, v in values.items():
-                address, length, rtype, dtype, vtype, label, fmt, batch = v
+                address, length, rtype, dtype, vtype, label, fmt, batch, sf = v
 
                 if address > offset:
                     skip_bytes = address - offset
@@ -261,7 +261,7 @@ class Meter:
         return results
 
     def _write(self, value, data):
-        address, length, rtype, dtype, vtype, label, fmt, batch = value
+        address, length, rtype, dtype, vtype, label, fmt, batch, sf = value
 
         try:
             if rtype == registerType.HOLDING:
@@ -281,7 +281,8 @@ class Meter:
         return self.client.is_socket_open()
 
     def get_scaling(self, key):
-        return 1
+        address, length, rtype, dtype, vtype, label, fmt, batch, sf = self.registers[key]
+        return sf
 
     def read(self, key, scaling=False):
         if key not in self.registers:
