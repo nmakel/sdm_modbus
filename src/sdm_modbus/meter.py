@@ -116,6 +116,7 @@ class Meter:
                 self.host = kwargs.get("host")
                 self.port = kwargs.get("port", 502)
                 self.mode = connectionType.TCP
+
                 self.client = ModbusTcpClient(
                     host=self.host,
                     port=self.port,
@@ -175,8 +176,10 @@ class Meter:
         try:
             if dtype == registerDataType.FLOAT32:
                 builder.add_32bit_float(data)
-            if dtype == registerDataType.INT32:
+            elif dtype == registerDataType.INT32:
                 builder.add_32bit_int(data)
+            elif dtype == registerDataType.UINT32:
+                builder.add_32bit_uint(data)
             elif dtype == registerDataType.INT16:
                 builder.add_16bit_int(data)
             else:
@@ -190,7 +193,9 @@ class Meter:
         try:
             if dtype == registerDataType.FLOAT32:
                 return vtype(data.decode_32bit_float())
-            if dtype == registerDataType.INT32:
+            elif dtype == registerDataType.INT32:
+                return vtype(data.decode_32bit_int())
+            elif dtype == registerDataType.UINT32:
                 return vtype(data.decode_32bit_uint())
             elif dtype == registerDataType.INT16:
                 return vtype(data.decode_16bit_int())
