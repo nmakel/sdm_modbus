@@ -4,7 +4,7 @@ from sdm_modbus import meter
 class ESPP1(meter.Meter):
 
     def __init__(self, *args, **kwargs):
-        self.model = "ESP2866-P1-MODBUS"
+        self.model = "ESP-P1-MODBUS"
 
         super().__init__(*args, **kwargs)
 
