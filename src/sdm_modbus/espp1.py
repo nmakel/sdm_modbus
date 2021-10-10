@@ -9,10 +9,10 @@ class ESPP1(meter.Meter):
         super().__init__(*args, **kwargs)
 
         self.registers = {
-            "import_energy_active_low": (0x00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Energy (Active), Low Tariff", "W", 1, 1),
-            "import_energy_active_high": (0x02, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Energy (Active), High Tariff", "W", 1, 1),
-            "export_energy_active_low": (0x04, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Exported Energy (Active), Low Tariff", "W", 1, 1),
-            "export_energy_active_high": (0x06, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Exported Energy (Active), High Tariff", "W", 1, 1),
+            "import_energy_active_low": (0x00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Energy (Active), Low Tariff", "Wh", 1, 1),
+            "import_energy_active_high": (0x02, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Energy (Active), High Tariff", "Wh", 1, 1),
+            "export_energy_active_low": (0x04, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Exported Energy (Active), Low Tariff", "Wh", 1, 1),
+            "export_energy_active_high": (0x06, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Exported Energy (Active), High Tariff", "Wh", 1, 1),
             "tariff": (0x08, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Current Tariff", "", 1, 1),
             "import_power_active": (0x0A, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Import Power (Active)", "W", 1, 1),
             "export_power_active": (0x0C, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Export Power (Active)", "W", 1, 1),
