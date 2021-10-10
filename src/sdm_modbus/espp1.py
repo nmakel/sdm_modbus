@@ -37,4 +37,7 @@ class ESPP1(meter.Meter):
             "l2_export_power_active": (0x32, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "L2 Export Power (Active)", "W", 1, 1),
             "l3_export_power_active": (0x34, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "L3 Export Power (Active)", "W", 1, 1),
             "import_gas_volume": (0x36, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Gas Volume", "m3", 1, .001),
+            "import_thermal_measurement": (0x38, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Thermal Measurement", "GJ", 1, .001),
+            "import_water_volume": (0x3A, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Water Volume", "m3", 1, .001),
+            "import_slave_measurement": (0x3C, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Imported Slave Measurement", "", 1, 1)
         }
