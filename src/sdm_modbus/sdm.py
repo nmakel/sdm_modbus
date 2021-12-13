@@ -65,6 +65,8 @@ class SDM72(SDM):
             "relay_pulse_width": (0x000c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Relay Pulse Width", "ms", 1, 1),
             "network_parity_stop": (0x0012, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Network Parity Stop", [
                 "N-1", "E-1", "O-1", "N-2"], 1, 1),
+            "modbus_address": (0x0014, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Modbus Address", "", 1, 1),
+            "password": (0x0018, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Password", "", 1, 1),
             "meter_id": (0x0014, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Meter ID", "", 1, 1),
             "baud": (0x001c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Baud Rate", [
                 2400, 4800, 9600, 19200, 38400], 1, 1),
