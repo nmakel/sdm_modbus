@@ -97,9 +97,9 @@ def step_impl(context):
     context.add_cleanup(context.modbus_server.shutdown)
 
 
-@given('a SDM72 meter client')
+@given('a SDM120 meter client')
 def step_impl(context):
-    context.meter = sdm_modbus.SDM72(host="localhost", port=5020)
+    context.meter = sdm_modbus.SDM120(host="localhost", port=5020)
     context.add_cleanup(context.meter.disconnect)
 
 

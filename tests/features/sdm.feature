@@ -2,41 +2,92 @@ Feature: Reading SDM meter values
 
   Scenario: Simulate a connection to a fake SDM meter
     Given device byte endianness > and word endianness >
-    And simulated memory block at 0x0034
-    | type          | value | comment               |
-    | 32bit_float   | 700   | total_system_power    |
-    | 18 registers  | 0     | padding               |
+    And simulated memory block at 0x0000
+    | type        | value  | comment                            |
+    | 32bit_float | 230    | voltage                            |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 5      | current                            |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 1150   | power_active                       |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 1150   | power_apparent                     |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 1300   | power_reactive                     |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 1      | power_factor                       |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | phase_angle                        |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 50     | frequency                          |
+    | 32bit_float | 10000  | import_energy_active               |
+    | 32bit_float | 5000   | export_energy_active               |
+    | 32bit_float | 12000  | import_energy_reactive             |
+    | 32bit_float | 6000   | export_energy_reactive             |
 
-    And simulated memory block at 0x0048
-    | type          | value | comment           |
-    | 32bit_float   | 10000 | total_import_kwh  |
-    | 32bit_float   | 20000 | total_export_kwh  |
+    And simulated memory block at 0x0054
+    | type        | value  | comment                            |
+    | 32bit_float | 1250   | total_demand_power_active          |
+    | 32bit_float | 6000   | maximum_total_demand_power_active  |
+    | 32bit_float | 5000   | import_demand_power_active         |
+    | 32bit_float | 7500   | maximum_import_demand_power_active |
+    | 32bit_float | 3000   | export_demand_power_active         |
+    | 32bit_float | 5000   | maximum_export_demand_power_active |
+
+    And simulated memory block at 0x0102
+    | type        | value  | comment                            |
+    | 32bit_float | 18     | total_demand_current               |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 0      | empty                              |
+    | 32bit_float | 32.5   | maximum_total_demand_current       |
 
     And simulated memory block at 0x0156
-    | type          | value | comment       |
-    | 32bit_float   | 0.7   | total_kwh     |
+    | type        | value  | comment                            |
+    | 32bit_float | 10000  | total_energy_active                |
+    | 32bit_float | 12000  | total_energy_reactive              |
 
-    And simulated memory block at 0x0180
-    | type          | value | comment                           |
-    | 32bit_float   | 123   | resettable_total_active_energy    |
-    | 32bit_float   | 456   | padding?                          |
-    | 32bit_float   | 789   | resettable_import_active_energy   |
-    | 32bit_float   | 912   | resettable_export_active_energy   |
-
-    And simulated memory block at 0x0500
-    | type          | value | comment                   |
-    | 32bit_float   | 30000 | total_import_active_power |
-    | 32bit_float   | 40000 | total_export_active_power |
-
-    And a SDM72 meter client
+    And a SDM120 meter client
     When simulating the modbus slave
     And we read all values
-    Then the result key "total_system_power" should be equal to 700.0
-    And the result key "total_import_kwh" should be equal to 10000.0
-    And the result key "total_export_kwh" should be equal to 20000.0
-    And the result key "resettable_total_active_energy" should be equal to 123.0
-    And the result key "resettable_import_active_energy" should be equal to 789.0
-    And the result key "resettable_export_active_energy" should be equal to 912.0
-    And the result key "total_import_active_power" should be equal to 30000.0
-    And the result key "total_export_active_power" should be equal to 40000.0
-    And the result key "total_kwh" should be within 0.0001 of 0.7
+    Then the result key "voltage" should be equal to 230.0
+    And the result key "current" should be equal to 5
+    And the result key "power_active" should be equal to 1150
+    And the result key "power_apparent" should be equal to 1150
+    And the result key "power_reactive" should be equal to 1300
+    And the result key "power_factor" should be equal to 1
+    And the result key "phase_angle" should be equal to 0
+    And the result key "frequency" should be equal to 50
+    And the result key "import_energy_active" should be equal to 10000
+    And the result key "export_energy_active" should be equal to 5000
+    And the result key "import_energy_reactive" should be equal to 12000
+    And the result key "export_energy_reactive" should be equal to 6000
+    And the result key "total_demand_power_active" should be equal to 1250
+    And the result key "maximum_total_demand_power_active" should be equal to 6000
+    And the result key "import_demand_power_active" should be equal to 5000
+    And the result key "maximum_import_demand_power_active" should be equal to 7500
+    And the result key "export_demand_power_active" should be equal to 3000
+    And the result key "maximum_export_demand_power_active" should be equal to 5000
+    And the result key "total_demand_current" should be equal to 18
+    And the result key "maximum_total_demand_current" should be equal to 32.5
+    And the result key "total_energy_active" should be equal to 10000
+    And the result key "total_energy_reactive" should be equal to 12000
