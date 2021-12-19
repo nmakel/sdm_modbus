@@ -7,12 +7,14 @@ Supported devices:
 * [Eastron SDM120-Modbus](https://www.eastroneurope.com/products/view/sdm120modbus)
 * [Eastron SDM230-Modbus](https://www.eastroneurope.com/products/view/sdm230modbus)
 * [Eastron SDM630-Modbus](https://www.eastroneurope.com/products/view/sdm630modbus)
+* [Garo GNM3D-RS485](https://www.garo.se/en/professional/products/installation-products/din-rail-components/energy-meters/energymeter-3p-modbus-rs485)
+* [ESP2866/32 P1 Modbus](https://github.com/nmakel/esp_p1_modbus)
 
 ## Installation
 
-To install, either clone this project and install using `setuptools`:
+To install, either clone this project and install using `poetry`:
 
-```python3 setup.py install```
+```poetry install```
 
 or install the package from PyPi:
 
