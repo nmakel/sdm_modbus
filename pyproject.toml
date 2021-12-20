@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sdm_modbus"
-version = "0.5.0"
+version = "0.5.1"
 description = "Eastron SDM Modbus parser library"
 authors = ["nmakel"]
 license = "MIT"
