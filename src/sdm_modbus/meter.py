@@ -125,6 +125,8 @@ class Meter:
                     timeout=self.timeout
                 )
 
+        self.connect()
+
     def __repr__(self):
         if self.mode == connectionType.RTU:
             return f"{self.model}({self.device}, {self.mode}: stopbits={self.stopbits}, parity={self.parity}, baud={self.baud}, timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
