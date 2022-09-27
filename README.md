@@ -141,7 +141,7 @@ Reading a single input register by name:
     236.89999389648438
 ```
 
-Read all input registers by passing the `sdm_modbus.registerType.INPUT` enum to `read_all()`. Leave this blank to read both `INPUT` and `HOLDING` registers:
+Read all registers of a given `registerType` by calling `read_all()`. By default this polls all `sdm_modbus.registerType.INPUT` registers. Pass `sdm_modbus.registerType.HOLDING` to poll all holding registers.
 
 ```
     >>> device.read_all(sdm_modbus.registerType.INPUT)
