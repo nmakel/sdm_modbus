@@ -4,6 +4,72 @@ from sdm_modbus import meter
 class SDM(meter.Meter):
     pass
 
+class SDM72V2(SDM):
+
+    def __init__(self, *args, **kwargs):
+        self.model = "SDM72V2"
+        self.baud = 9600
+
+        super().__init__(*args, **kwargs)
+
+        self.registers = {
+            "l1_voltage": (0x0000, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1 Voltage", "V", 1, 1),
+            "l2_voltage": (0x0002, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2 Voltage", "V", 1, 1),
+            "l3_voltage": (0x0004, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3 Voltage", "V", 1, 1),
+            "l1_current": (0x0006, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1 Current", "A", 1, 1),
+            "l2_current": (0x0008, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2 Current", "A", 1, 1),
+            "l3_current": (0x000a, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3 Current", "A", 1, 1),
+            "l1_power_active": (0x000c, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1 Power (Active)", "W", 1, 1),
+            "l2_power_active": (0x000e, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2 Power (Active)", "W", 1, 1),
+            "l3_power_active": (0x0010, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3 Power (Active)", "W", 1, 1),
+            "l1_power_apparent": (0x0012, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1 Power (Apparent)", "VA", 1, 1),
+            "l2_power_apparent": (0x0014, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2 Power (Apparent)", "VA", 1, 1),
+            "l3_power_apparent": (0x0016, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3 Power (Apparent)", "VA", 1, 1),
+            "l1_power_reactive": (0x0018, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1 Power (Reactive)", "VAr", 1, 1),
+            "l2_power_reactive": (0x001A, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2 Power (Reactive)", "VAr", 1, 1),
+            "l3_power_reactive": (0x001C, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3 Power (Reactive)", "VAr", 1, 1),
+            "l1_power_factor": (0x001e, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1 Power Factor", "", 1, 1),
+            "l2_power_factor": (0x0020, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2 Power Factor", "", 1, 1),
+            "l3_power_factor": (0x0022, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3 Power Factor", "", 1, 1),
+            "voltage_ln": (0x002a, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L-N Voltage", "V", 1, 1),
+            "current_ln": (0x002e, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L-N Current", "A", 1, 1),
+            "total_line_current": (0x0030, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Line Current", "A", 1, 1),
+            "total_power": (0x0034, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Power", "W", 1, 1),
+            "total_power_apparent": (0x0038, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Power (Apparent)", "VA", 1, 1),
+            "total_power_reactive": (0x003C, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Power (Reactive)", "VAr", 1, 1),
+            "total_pf": (0x003E, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Power Factor", "", 1, 1),
+            "frequency": (0x0046, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Frequency", "Hz", 1, 1),
+            "import_energy_active": (0x0048, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Imported Energy (Active)", "kWh", 1, 1),
+            "export_energy_active": (0x004a, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Exported Energy (Active)", "kWh", 1, 1),
+            "l12_voltage": (0x00c8, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L1-L2 Voltage", "V", 2, 1),
+            "l23_voltage": (0x00ca, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L2-L3 Voltage", "V", 2, 1),
+            "l31_voltage": (0x00cc, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L3-L1 Voltage", "V", 2, 1),
+            "voltage_ll": (0x00ce, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "L-L Voltage", "V", 2, 1),
+            "neutral_current": (0x00e0, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Neutral Current", "A", 2, 1),
+            "total_energy_active": (0x0156, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Energy (Active)", "kWh", 3, 1),
+            "total_energy_reactive": (0x0158, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Energy (Reactive)", "kVArh", 3, 1),
+            "resettable_total_energy_active": (0x0180, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Resettable Total Energy (Active)", "kWh", 3, 1),
+            "resettable_import_enerty_active": (0x0184, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Resettable Import Energy (Active)", "kWh", 3, 1),
+            "resettable_export_energy_active": (0x0186, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Resettable Export Energy (Active)", "kWh", 3, 1),
+            "net_kwh": (0x018c, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Net kWh (Import - Export)", "kWh", 3, 1),
+            "import_total_power_active": (0x0500, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Import Power (Active)", "W", 4, 1),
+            "export_total_power_active": (0x0502, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Export Power (Active)", "W", 4, 1),
+
+            "system_type": (0x000a, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "System Type", [-1, "1P2W", "3P4W"], 1, 1),
+            "relay_pulse_width": (0x000c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Relay Pulse Width", "ms", 1, 1),
+            "kppa": (0x000e, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Key Parameter Programming Authorization", [0, 1], 1, 1),
+            "network_parity_stop": (0x0012, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Network Parity Stop", [
+                "N-1", "E-1", "O-1", "N-2"], 1, 1),
+            "meter_id": (0x0014, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Modbus Address", "", 1, 1),
+            "pulse_constant": (0x0016, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse Constant",  [" 1000imp/kWh", "100imp/kWh", "10imp/kWh", "1imp/kWh"], 1, 1),
+            "password": (0x0018, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Password", "", 1, 1),
+            "baud": (0x001c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Baud Rate", [
+                2400, 4800, 9600, 19200, 38400], 1, 1),
+            "auto_scroll": (0x003a, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Auto Scroll Display Time", "", 1, 1),
+            "backlit_time": (0x003c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Backlit Time", "", 1, 1),
+            "pulse1_energy": (0x0056, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse 1 Energy Type", ["import active energy", "total active energy", "export active energy, (default)"], 1, 1),
+            "reset_history": (0xf010, 2, meter.registerType.HOLDING, meter.registerDataType.INT16, int, "Reset Historical Data", 0x0003, 1, 1)
+        }
 
 class SDM72(SDM):
 
