@@ -195,7 +195,10 @@ class SDM120(SDM):
             "measurement_mode": (0xf920, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Measurement Mode", [
                 0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 3, 1),
             "indicator_mode": (0xf930, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse/LED Indicator Mode", [
-                "Import + Export Energy (Active)", "Import Energy (Active)", "Export Energy (Active)"], 3, 1)
+                "Import + Export Energy (Active)", "Import Energy (Active)", "Export Energy (Active)"], 3, 1),
+            "serial_number": (0xfc00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Serial Number", "", 1, 1),
+            "meter_code": (0xfc02, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Meter Code", "", 1, 1),
+            "software_version": (0xfc03, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Software Version", "", 1, 1),
         }
 
 
