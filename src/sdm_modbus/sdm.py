@@ -196,9 +196,9 @@ class SDM120(SDM):
                 0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 3, 1),
             "indicator_mode": (0xf930, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse/LED Indicator Mode", [
                 "Import + Export Energy (Active)", "Import Energy (Active)", "Export Energy (Active)"], 3, 1),
-            "serial_number": (0xfc00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Serial Number", "", 1, 1),
-            "meter_code": (0xfc02, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Meter Code", "", 1, 1),
-            "software_version": (0xfc03, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Software Version", "", 1, 1),
+            "serial_number": (0xfc00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Serial Number", "", 4, 1),
+            "meter_code": (0xfc02, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Meter Code", "", 2, 1),
+            "software_version": (0xfc03, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Software Version", "", 4, 1)
         }
 
 
@@ -366,5 +366,6 @@ class SDM630(SDM):
                 2400, 4800, 9600, 19200, 38400], 1, 1),
             "system_power": (0x0024, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, float, "System Power", "W", 1, 1),
             "p1_divisor": (0xf910, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "P1 Divisor", [
-                "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp", "10kWh/imp", "100kWh/imp"], 2, 1)
+                "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp", "10kWh/imp", "100kWh/imp"], 2, 1),
+            "serial_number": (0xfc00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Serial Number", "", 4, 1),
         }
