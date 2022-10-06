@@ -4,6 +4,7 @@ from sdm_modbus import meter
 class SDM(meter.Meter):
     pass
 
+
 class SDM72V2(SDM):
 
     def __init__(self, *args, **kwargs):
@@ -55,21 +56,25 @@ class SDM72V2(SDM):
             "import_total_power_active": (0x0500, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Import Power (Active)", "W", 4, 1),
             "export_total_power_active": (0x0502, 2, meter.registerType.INPUT, meter.registerDataType.FLOAT32, float, "Total Export Power (Active)", "W", 4, 1),
 
-            "system_type": (0x000a, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "System Type", [-1, "1P2W", "3P4W"], 1, 1),
+            "system_type": (0x000a, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "System Type", [
+                -1, "1P2W", "3P4W"], 1, 1),
             "relay_pulse_width": (0x000c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Relay Pulse Width", "ms", 1, 1),
             "kppa": (0x000e, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Key Parameter Programming Authorization", [0, 1], 1, 1),
             "network_parity_stop": (0x0012, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Network Parity Stop", [
                 "N-1", "E-1", "O-1", "N-2"], 1, 1),
             "meter_id": (0x0014, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Modbus Address", "", 1, 1),
-            "pulse_constant": (0x0016, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse Constant",  [" 1000imp/kWh", "100imp/kWh", "10imp/kWh", "1imp/kWh"], 1, 1),
+            "pulse_constant": (0x0016, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse Constant", [
+                "1000imp/kWh", "100imp/kWh", "10imp/kWh", "1imp/kWh"], 1, 1),
             "password": (0x0018, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Password", "", 1, 1),
             "baud": (0x001c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Baud Rate", [
                 2400, 4800, 9600, 19200, 38400], 1, 1),
             "auto_scroll": (0x003a, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Auto Scroll Display Time", "", 1, 1),
-            "backlit_time": (0x003c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Backlit Time", "", 1, 1),
-            "pulse1_energy": (0x0056, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse 1 Energy Type", ["import active energy", "total active energy", "export active energy, (default)"], 1, 1),
+            "backlit_time": (0x003c, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Backlight Timeout", "", 1, 1),
+            "pulse1_energy": (0x0056, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Pulse 1 Energy Type", [
+                "Import Energy (Active)", "Total Energy (Active)", "Export Energy (Active)"], 1, 1),
             "reset_history": (0xf010, 2, meter.registerType.HOLDING, meter.registerDataType.INT16, int, "Reset Historical Data", 0x0003, 1, 1)
         }
+
 
 class SDM72(SDM):
 
