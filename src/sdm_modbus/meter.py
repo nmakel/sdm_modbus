@@ -2,8 +2,8 @@ import enum
 import time
 
 from pymodbus.constants import Endian
-from pymodbus.client.sync import ModbusTcpClient
-from pymodbus.client.sync import ModbusSerialClient
+from pymodbus.client import ModbusTcpClient
+from pymodbus.client import ModbusSerialClient
 from pymodbus.payload import BinaryPayloadBuilder
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.register_read_message import ReadInputRegistersResponse
@@ -142,7 +142,7 @@ class Meter:
                 time.sleep(0.1)
                 continue
 
-            result = self.client.read_input_registers(address=address, count=length, unit=self.unit)
+            result = self.client.read_input_registers(address=address, count=length, slave=self.unit)
 
             if not isinstance(result, ReadInputRegistersResponse):
                 continue
@@ -160,7 +160,7 @@ class Meter:
                 time.sleep(0.1)
                 continue
 
-            result = self.client.read_holding_registers(address=address, count=length, unit=self.unit)
+            result = self.client.read_holding_registers(address=address, count=length, slave=self.unit)
 
             if not isinstance(result, ReadHoldingRegistersResponse):
                 continue
