@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import time
 import sdm_modbus
 
 
@@ -14,6 +15,8 @@ if __name__ == "__main__":
     argparser.add_argument("--timeout", type=int, default=1, help="Connection timeout")
     argparser.add_argument("--unit", type=int, default=1, help="Modbus unit")
     argparser.add_argument("--json", action="store_true", default=False, help="Output as JSON")
+    argparser.add_argument("--zeromq", action="store_true", default=False, help="Publish with zeromq")
+    argparser.add_argument("--zport", type=int, default=5556, help="Port for zeromq")
     args = argparser.parse_args()
 
     meter = sdm_modbus.SDM120(
@@ -27,6 +30,19 @@ if __name__ == "__main__":
 
     if args.json:
         print(json.dumps(meter.read_all(scaling=True), indent=4))
+    elif args.zeromq:
+        import zmq
+        port = args.zport
+        context = zmq.Context()
+        socket = context.socket(zmq.PUB)
+        socket.bind("tcp://*:%s" % port) 
+        print(f"Publishing with zeromq on port:{port}")
+        while True:
+            topic = 1
+            messagedata = json.dumps(meter.read_all(scaling=True), indent=None, separators=(',', ':'))
+            print(f"{topic} {messagedata}")
+            socket.send_string(f"{topic} {messagedata}")
+            time.sleep(1) 
     else:
         print(f"{meter}:")
         print("\nInput Registers:")
