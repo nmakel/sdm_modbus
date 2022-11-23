@@ -3,6 +3,7 @@ import time
 
 from pymodbus.constants import Endian
 from pymodbus.client import ModbusTcpClient
+from pymodbus.client import ModbusUdpClient
 from pymodbus.client import ModbusSerialClient
 from pymodbus.payload import BinaryPayloadBuilder
 from pymodbus.payload import BinaryPayloadDecoder
@@ -13,6 +14,7 @@ from pymodbus.register_read_message import ReadHoldingRegistersResponse
 class connectionType(enum.Enum):
     RTU = 1
     TCP = 2
+    UDP = 3
 
 
 class registerType(enum.Enum):
@@ -50,6 +52,8 @@ class Meter:
 
     wordorder = Endian.Big
     byteorder = Endian.Big
+    
+    udp = False
 
     def __init__(self, **kwargs):
         parent = kwargs.get("parent")
@@ -75,6 +79,9 @@ class Meter:
             elif self.mode is connectionType.TCP:
                 self.host = parent.host
                 self.port = parent.port
+            elif self.mode is connectionType.UDP:
+                self.host = parent.host
+                self.port = parent.port
             else:
                 raise NotImplementedError(self.mode)
         else:
@@ -83,6 +90,8 @@ class Meter:
             self.unit = kwargs.get("unit", UNIT)
 
             device = kwargs.get("device")
+            
+            udp = kwargs.get("udp")
 
             if device:
                 self.device = device
@@ -114,9 +123,21 @@ class Meter:
                     baudrate=self.baud,
                     timeout=self.timeout
                 )
+            elif udp:
+                self.host = kwargs.get("host")
+                self.port = kwargs.get("port", 502)
+                
+                self.mode = connectionType.UDP
+
+                self.client = ModbusUdpClient(
+                    host=self.host,
+                    port=self.port,
+                    timeout=self.timeout
+                )
             else:
                 self.host = kwargs.get("host")
                 self.port = kwargs.get("port", 502)
+                
                 self.mode = connectionType.TCP
 
                 self.client = ModbusTcpClient(
@@ -131,6 +152,8 @@ class Meter:
         if self.mode == connectionType.RTU:
             return f"{self.model}({self.device}, {self.mode}: stopbits={self.stopbits}, parity={self.parity}, baud={self.baud}, timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
         elif self.mode == connectionType.TCP:
+            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
+        elif self.mode == connectionType.UDP:
             return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
         else:
             return f"<{self.__class__.__module__}.{self.__class__.__name__} object at {hex(id(self))}>"
