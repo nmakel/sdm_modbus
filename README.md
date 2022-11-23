@@ -1,6 +1,6 @@
 # sdm_modbus
 
-sdm_modbus is a python library that collects data from Eastron SDM single- and three-phase kWh meters over Modbus RTU or Modbus TCP.
+sdm_modbus is a python library that collects data from Eastron SDM single- and three-phase kWh meters over Modbus RTU, Modbus TCP or Modbus UDP.
 
 Supported devices:
 * [Eastron SDM72D-M](https://www.eastroneurope.com/products/view/sdm72modbus)
@@ -23,7 +23,7 @@ or install the package from PyPi:
 
 ## Usage
 
-The script `example-tcp.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP**. To display values as a JSON object, add `--json`.
+The script `example-tcp-udp.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP or Modbus UDP**. To display values as a JSON object, add `--json`.
 
 ```
 usage: example-tcp.py [-h] [--unit UNIT] [--json] host port
@@ -34,6 +34,7 @@ positional arguments:
 
 optional arguments:
   -h, --help   show this help message and exit
+  --udp UDP    Is Modbus UDP?
   --unit UNIT  Modbus device address
   --json       Output as JSON
 ```
@@ -83,13 +84,14 @@ Holding Registers:
 
 ### Connecting
 
-If you wish to use Modbus TCP the following parameters are relevant:
+If you wish to use Modbus TCP or UDP the following parameters are relevant:
 
 `host = IP or DNS name of your Modbus TCP gateway, required`  
 `port = TCP port of the Modbus TCP gateway, required`  
 `unit = Modbus device address, default=1, optional`
+`udp = Is Modbus UDP?, default=False, optional`
 
-While if you are using a Modbus RTU connection you can specify:
+If you are using a Modbus RTU connection you can specify:
 
 `device = path to serial device, e.g. /dev/ttyUSB0, required`  
 `baud = baud rate of your SDM unit, defaults to factory default, optional`  
@@ -102,6 +104,9 @@ Connecting to the meter:
 
     # SDM120 over Modbus TCP
     >>> device = sdm_modbus.SDM120(host="10.0.0.123", port=502)
+
+    # SDM120 over Modbus UDP
+    >>> device = sdm_modbus.SDM120(host="10.0.0.123", port=502, udp=True)
 
     # SDM630 over Modbus RTU
     >>> device = sdm_modbus.SDM630(device="/dev/ttyUSB0", baud=9600)
@@ -123,7 +128,7 @@ Printing the object yields basic device parameters:
 
 ### Connecting to Multiple Devices
 
-Re-using an existing RTU or TCP connection is possible by providing an already connected device as `parent` when creating a new instance. This may be necessary if the Modbus TCP gateway only accepts a limited number of connections, or you wish to address multiple RTU devices on the same bus. For example:
+Re-using an existing RTU, TCP or UDP connection is possible by providing an already connected device as `parent` when creating a new instance. This may be necessary if the Modbus TCP/UDP gateway only accepts a limited number of connections, or you wish to address multiple RTU devices on the same bus. For example:
 
 ```
     # Connect to a SDM630 over Modbus TCP
