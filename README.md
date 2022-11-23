@@ -23,14 +23,14 @@ or install the package from PyPi:
 
 ## Usage
 
-The script `example-tcp-udp.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP or Modbus UDP**. To display values as a JSON object, add `--json`.
+The script `example-tcp-udp.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP or UDP**. To display values as a JSON object, add `--json`.
 
 ```
-usage: example-tcp.py [-h] [--unit UNIT] [--json] host port
+usage: example-tcp-udp.py [-h] [--unit UNIT] [--json] [--udp] host port
 
 positional arguments:
-  host         Modbus TCP address
-  port         Modbus TCP port
+  host         Modbus TCP/UDP address
+  port         Modbus TCP/UDP port
 
 optional arguments:
   -h, --help   show this help message and exit
