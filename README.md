@@ -34,7 +34,7 @@ positional arguments:
 
 optional arguments:
   -h, --help   show this help message and exit
-  --udp UDP    Is Modbus UDP?
+  --udp UDP    Use Modbus UDP mode?
   --unit UNIT  Modbus device address
   --json       Output as JSON
 ```
