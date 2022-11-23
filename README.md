@@ -34,7 +34,7 @@ positional arguments:
 
 optional arguments:
   -h, --help   show this help message and exit
-  --udp UDP    Use Modbus UDP mode?
+  --udp UDP    Use Modbus UDP mode
   --unit UNIT  Modbus device address
   --json       Output as JSON
 ```
@@ -89,7 +89,7 @@ If you wish to use Modbus TCP or UDP the following parameters are relevant:
 `host = IP or DNS name of your Modbus TCP gateway, required`  
 `port = TCP port of the Modbus TCP gateway, required`  
 `unit = Modbus device address, default=1, optional`
-`udp = Is Modbus UDP?, default=False, optional`
+`udp = Use Modbus UDP mode, default=False, optional`
 
 If you are using a Modbus RTU connection you can specify:
 
