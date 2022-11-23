@@ -13,9 +13,9 @@ Supported devices:
 
 ## Installation
 
-To install, either clone this project and install using `poetry`:
+To install, either clone this project and install using `setup.py`:
 
-```poetry install```
+```python3 setup.py install```
 
 or install the package from PyPi:
 
