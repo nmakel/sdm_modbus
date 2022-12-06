@@ -33,10 +33,12 @@ positional arguments:
   port         Modbus TCP/UDP port
 
 optional arguments:
-  -h, --help   show this help message and exit
-  --udp UDP    Use Modbus UDP mode
-  --unit UNIT  Modbus device address
-  --json       Output as JSON
+  -h, --help         show this help message and exit
+  --udp              Use Modbus UDP mode
+  --timeout TIMEOUT  Connection timeout
+  --framer FRAMER    Framer (rtu|socket|ascii|binary)
+  --unit UNIT        Modbus device address
+  --json             Output as JSON
 ```
 
 Output:
@@ -90,6 +92,7 @@ If you wish to use Modbus TCP or UDP the following parameters are relevant:
 `port = TCP port of the Modbus TCP gateway, required`  
 `unit = Modbus device address, default=1, optional`
 `udp = Use Modbus UDP mode, default=False, optional`
+`framer = Modbus protocol, default=socket, optional`
 
 If you are using a Modbus RTU connection you can specify:
 
