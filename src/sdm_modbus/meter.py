@@ -1,4 +1,5 @@
 import enum
+import importlib
 import time
 
 from pymodbus.constants import Endian
@@ -63,6 +64,7 @@ class Meter:
             self.mode = parent.mode
             self.timeout = parent.timeout
             self.retries = parent.retries
+            self.framer = parent.framer
 
             unit = kwargs.get("unit")
 
@@ -88,6 +90,20 @@ class Meter:
             self.timeout = kwargs.get("timeout", TIMEOUT)
             self.retries = kwargs.get("retries", RETRIES)
             self.unit = kwargs.get("unit", UNIT)
+
+            client_args = {}
+
+            framer_name = kwargs.get("framer")
+            if framer_name is None:
+                self.framer = None
+            else:
+                try:
+                    framer_package_name = f"pymodbus.framer.{framer_name}_framer"
+                    framer_class_name = f"Modbus{framer_name[0].upper()}{framer_name[1:]}Framer"
+                    self.framer = importlib.import_module(framer_package_name).__getattribute__(framer_class_name)
+                    client_args["framer"] = self.framer
+                except Exception as e:
+                    raise ValueError(f"failed to import {framer_name} framer: {e}")
 
             device = kwargs.get("device")
             
@@ -121,7 +137,8 @@ class Meter:
                     stopbits=self.stopbits,
                     parity=self.parity,
                     baudrate=self.baud,
-                    timeout=self.timeout
+                    timeout=self.timeout,
+                    **client_args
                 )
             elif udp:
                 self.host = kwargs.get("host")
@@ -132,7 +149,8 @@ class Meter:
                 self.client = ModbusUdpClient(
                     host=self.host,
                     port=self.port,
-                    timeout=self.timeout
+                    timeout=self.timeout,
+                    **client_args
                 )
             else:
                 self.host = kwargs.get("host")
@@ -143,18 +161,20 @@ class Meter:
                 self.client = ModbusTcpClient(
                     host=self.host,
                     port=self.port,
-                    timeout=self.timeout
+                    timeout=self.timeout,
+                    **client_args
                 )
 
         self.connect()
 
     def __repr__(self):
+        framer_name = self.framer.__name__ if self.framer is not None else "default"
         if self.mode == connectionType.RTU:
-            return f"{self.model}({self.device}, {self.mode}: stopbits={self.stopbits}, parity={self.parity}, baud={self.baud}, timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
+            return f"{self.model}({self.device}, {self.mode}: stopbits={self.stopbits}, parity={self.parity}, baud={self.baud}, timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)}, framer={framer_name})"
         elif self.mode == connectionType.TCP:
-            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
+            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)}, framer={framer_name})"
         elif self.mode == connectionType.UDP:
-            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)})"
+            return f"{self.model}({self.host}:{self.port}, {self.mode}: timeout={self.timeout}, retries={self.retries}, unit={hex(self.unit)}, framer={framer_name})"
         else:
             return f"<{self.__class__.__module__}.{self.__class__.__name__} object at {hex(id(self))}>"
 
