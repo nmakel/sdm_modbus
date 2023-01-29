@@ -10,6 +10,7 @@ Supported devices:
 * [Eastron SDM630-Modbus](https://www.eastroneurope.com/products/view/sdm630modbus)
 * [Garo GNM3D-RS485](https://www.garo.se/en/professional/products/installation-products/din-rail-components/energy-meters/energymeter-3p-modbus-rs485)
 * [ESP2866/32 P1 Modbus](https://github.com/nmakel/esp_p1_modbus)
+* [TAIYEDQ TAC4300-CT](http://www.taiye-electric.com/productdetail/tac4300-ct-three-phase-multi-function-energy-meter.html)
 
 ## Installation
 
