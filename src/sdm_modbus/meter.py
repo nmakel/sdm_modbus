@@ -215,7 +215,7 @@ class Meter:
         return None
 
     def _write_holding_register(self, address, value):
-        return self.client.write_registers(address=address, values=value, unit=self.unit)
+        return self.client.write_registers(address=address, values=value)
 
     def _encode_value(self, data, dtype):
         builder = BinaryPayloadBuilder(byteorder=self.byteorder, wordorder=self.wordorder)
