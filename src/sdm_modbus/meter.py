@@ -51,9 +51,9 @@ class Meter:
     parity = "N"
     baud = 38400
 
-    wordorder = Endian.Big
-    byteorder = Endian.Big
-    
+    wordorder = Endian.BIG
+    byteorder = Endian.BIG
+
     udp = False
 
     def __init__(self, **kwargs):
