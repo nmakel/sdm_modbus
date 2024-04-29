@@ -12,7 +12,50 @@ Supported devices:
 * [ESP2866/32 P1 Modbus](https://github.com/nmakel/esp_p1_modbus)
 * [TAIYEDQ TAC4300-CT](http://www.taiye-electric.com/productdetail/tac4300-ct-three-phase-multi-function-energy-meter.html)
 
-## Installation
+
+# Preparation: Raspberry Pi Setup
+
+This guide outlines the steps for setting up the 2-Channel Isolated RS485 Expansion HAT, which uses the SC16IS752 chip, on a Raspberry Pi.
+
+## 1. Open the Configuration File
+Depending on your system, open the configuration file using one of the following commands in the terminal:
+
+For most systems:
+```bash
+sudo nano /boot/config.txt
+```
+
+For newer systems:
+```bash
+sudo nano /boot/firmware/config.txt
+```
+
+## 2. Modify the Configuration
+Append the following line at the end of the file to load the SC16IS752 overlay:
+
+```bash
+dtoverlay=sc16is752-spi1,int_pin=24
+```
+
+## 3. Restart the Raspberry Pi
+After modifying the configuration file, restart your Raspberry Pi to apply the changes:
+
+```bash
+sudo reboot
+```
+
+## 4. Verify the Installation
+Once your Raspberry Pi has rebooted, the driver for the SC16IS752 chip should be automatically loaded into the system kernel. To verify that the installation was successful, run the following command:
+
+```bash
+ls /dev
+```
+
+You should see `ttySC0` (channel 1 on the PCB) and `ttySC1` (channel 2 on the PCB) listed among the device files.
+
+
+
+# Installation of the modbus package
 
 To install, either clone this project and install using `setup.py`:
 
@@ -23,6 +66,30 @@ or install the package from PyPi:
 ```pip3 install sdm_modbus```
 
 ## Usage
+
+The script `example-rtu.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus RS485**. To display values as a JSON object, add `--json`.
+
+Here is an example for the Raspberry Pi using the Waveshare 2-Channel Isolated RS485 Expansion HAT:
+```bash
+python3 example-rtu.py /dev/ttySC0 --parity N --baud 9600 --timeout 3 --unit 1 --stopbits 1
+```
+
+```
+usage: example-rtu.py [-h] [--stopbits STOPBITS] [--parity {N,E,O}] [--baud BAUD] [--timeout TIMEOUT] [--unit UNIT] [--json] device
+
+positional arguments:
+  device               Modbus device
+
+options:
+  -h, --help           show this help message and exit
+  --stopbits STOPBITS  Stop bits
+  --parity {N,E,O}     Parity
+  --baud BAUD          Baud rate
+  --timeout TIMEOUT    Connection timeout
+  --unit UNIT          Modbus unit
+  --json               Output as JSON
+```
+
 
 The script `example-tcp-udp.py` provides a minimal example of connecting to and displaying all input and holding registers on a **SDM120** over **Modbus TCP or UDP**. To display values as a JSON object, add `--json`.
 
