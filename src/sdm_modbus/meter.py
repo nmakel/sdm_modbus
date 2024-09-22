@@ -8,8 +8,8 @@ from pymodbus.client import ModbusUdpClient
 from pymodbus.client import ModbusSerialClient
 from pymodbus.payload import BinaryPayloadBuilder
 from pymodbus.payload import BinaryPayloadDecoder
-from pymodbus.register_read_message import ReadInputRegistersResponse
-from pymodbus.register_read_message import ReadHoldingRegistersResponse
+from pymodbus.pdu.register_read_message import ReadInputRegistersResponse
+from pymodbus.pdu.register_read_message import ReadHoldingRegistersResponse
 
 
 class connectionType(enum.Enum):

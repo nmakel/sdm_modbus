@@ -247,7 +247,8 @@ class SDM230(SDM):
                 "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp"], 3, 1),
             "measurement_mode": (0xf920, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Measurement Mode", [
                 0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 3, 1),
-            "running_time": (0xf930, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Running Time", "h", 3, 1)
+            "running_time": (0xf930, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Running Time", "h", 3, 1),
+            "serial_number": (0xfc00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Serial Number", "", 4, 1)
         }
 
 
@@ -366,5 +367,9 @@ class SDM630(SDM):
             "system_power": (0x0024, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, float, "System Power", "W", 1, 1),
             "p1_divisor": (0xf910, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "P1 Divisor", [
                 "0.001kWh/imp", "0.01kWh/imp", "0.1kWh/imp", "1kWh/imp", "10kWh/imp", "100kWh/imp"], 2, 1),
+            "measurement_mode": (0xf920, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Measurement Mode", [
+                0x0, "Total Imported", "Total Imported + Exported", "Total Imported - Exported"], 2, 1),
+            "running_time": (0xf930, 2, meter.registerType.HOLDING, meter.registerDataType.FLOAT32, int, "Running Time", "h", 2, 1),
             "serial_number": (0xfc00, 2, meter.registerType.HOLDING, meter.registerDataType.UINT32, int, "Serial Number", "", 3, 1)
         }
+
