@@ -16,9 +16,9 @@ class EM24(CARLOGAVAZZI):
         super().__init__(*args, **kwargs)
 
         self.registers = {
-            "l1n_voltage": (0x0000, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L1 Voltage", "V", 1, 0.1),
-            "l2n_voltage": (0x0002, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L2 Voltage", "V", 1, 0.1),
-            "l3n_voltage": (0x0004, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L3 Voltage", "V", 1, 0.1),
+            "l1_voltage": (0x0000, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L1 Voltage", "V", 1, 0.1),
+            "l2_voltage": (0x0002, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L2 Voltage", "V", 1, 0.1),
+            "l3_voltage": (0x0004, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L3 Voltage", "V", 1, 0.1),
             "l12_voltage": (0x0006, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L1-L2 Voltage", "V", 1, 0.1),
             "l23_voltage": (0x0008, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L2-L3 Voltage", "V", 1, 0.1),
             "l31_voltage": (0x000a, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L3-L1 Voltage", "V", 1, 0.1),
