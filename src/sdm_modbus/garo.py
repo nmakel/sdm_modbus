@@ -10,7 +10,7 @@ class GNM3D(GARO):
 
     def __init__(self, *args, **kwargs):
         self.model = "GNM3D"
-        self.wordorder = Endian.Little
+        self.wordorder = Endian.LITTLE
 
         super().__init__(*args, **kwargs)
 
