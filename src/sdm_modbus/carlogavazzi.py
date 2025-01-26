@@ -35,7 +35,7 @@ class EM24(CARLOGAVAZZI):
             "l2_power_reactive": (0x0020, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L2 Power (Reactive)", "VAr", 1, 0.1),
             "l3_power_reactive": (0x0022, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L3 Power (Reactive)", "VAr", 1, 0.1),
             "voltage_ln": (0x0024, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L-N Voltage", "V", 1, 0.1),
-            "voltage_ll": (0x0026, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L-L Voltage", "V", 2, 0.1),
+            "voltage_ll": (0x0026, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "L-L Voltage", "V", 1, 0.1),
             "power_active": (0x0028, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "Total Power (Active)", "W", 1, 0.1),
             "power_apparent": (0x002a, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "Total Power (Apparent)", "VA", 1, 0.1),
             "power_reactive": (0x002c, 2, meter.registerType.INPUT, meter.registerDataType.INT32, float, "Total Power (Reactive)", "VAr", 1, 0.1),
