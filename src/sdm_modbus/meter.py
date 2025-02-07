@@ -6,10 +6,8 @@ from pymodbus.constants import Endian
 from pymodbus.client import ModbusTcpClient
 from pymodbus.client import ModbusUdpClient
 from pymodbus.client import ModbusSerialClient
-from pymodbus.payload import BinaryPayloadBuilder
-from pymodbus.payload import BinaryPayloadDecoder
-from pymodbus.pdu.register_read_message import ReadInputRegistersResponse
-from pymodbus.pdu.register_read_message import ReadHoldingRegistersResponse
+from pymodbus.pdu.register_message import ReadInputRegistersResponse
+from pymodbus.pdu.register_message import ReadHoldingRegistersResponse
 
 
 class connectionType(enum.Enum):
@@ -192,7 +190,7 @@ class Meter:
             if len(result.registers) != length:
                 continue
 
-            return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=self.byteorder, wordorder=self.wordorder)
+            return result.registers
 
         return None
 
@@ -209,56 +207,47 @@ class Meter:
                 continue
             if len(result.registers) != length:
                 continue
-
-            return BinaryPayloadDecoder.fromRegisters(result.registers, byteorder=self.byteorder, wordorder=self.wordorder)
+            
+            return result.registers
 
         return None
 
     def _write_holding_register(self, address, value):
         return self.client.write_registers(address=address, values=value)
-
-    def _encode_value(self, data, dtype):
-        builder = BinaryPayloadBuilder(byteorder=self.byteorder, wordorder=self.wordorder)
-
+   
+    def _convert_data_type(self, dtype):
         try:
             if dtype == registerDataType.FLOAT32:
-                builder.add_32bit_float(data)
+                return self.client.DATATYPE.FLOAT32
             elif dtype == registerDataType.INT32:
-                builder.add_32bit_int(data)
+                return self.client.DATATYPE.INT32
             elif dtype == registerDataType.UINT32:
-                builder.add_32bit_uint(data)
+                return self.client.DATATYPE.UINT32
             elif dtype == registerDataType.INT16:
-                builder.add_16bit_int(int(data))
+                return self.client.DATATYPE.INT16
+            elif dtype == registerDataType.UINT16:
+                return self.client.DATATYPE.UINT16             
             else:
                 raise NotImplementedError(dtype)
         except NotImplementedError:
             raise
 
-        return builder.to_registers()
-
-    def _decode_value(self, data, length, dtype, vtype):
-        try:
-            if dtype == registerDataType.FLOAT32:
-                return vtype(data.decode_32bit_float())
-            elif dtype == registerDataType.INT32:
-                return vtype(data.decode_32bit_int())
-            elif dtype == registerDataType.UINT32:
-                return vtype(data.decode_32bit_uint())
-            elif dtype == registerDataType.INT16:
-                return vtype(data.decode_16bit_int())
-            else:
-                raise NotImplementedError(dtype)
-        except NotImplementedError:
-            raise
+    def _endian_enum_to_string(self, e):
+        if e == Endian.BIG:
+            return "big"
+        elif e == Endian.LITTLE:
+            return "little"
+        else:
+            raise NotImplementedError(dtype)
 
     def _read(self, value):
         address, length, rtype, dtype, vtype, label, fmt, batch, sf = value
 
         try:
             if rtype == registerType.INPUT:
-                return self._decode_value(self._read_input_registers(address, length), length, dtype, vtype)
+                return vtype(self.client.convert_from_registers(self._read_input_registers(address, length), self._convert_data_type(dtype), self._endian_enum_to_string(self.wordorder)))
             elif rtype == registerType.HOLDING:
-                return self._decode_value(self._read_holding_registers(address, length), length, dtype, vtype)
+                return vtype(self.client.convert_from_registers(self._read_holding_registers(address, length), self._convert_data_type(dtype), self._endian_enum_to_string(self.wordorder)))
             else:
                 raise NotImplementedError(rtype)
         except NotImplementedError:
@@ -288,25 +277,21 @@ class Meter:
 
         try:
             if rtype == registerType.INPUT:
-                data = self._read_input_registers(offset, length)
+                registers = self._read_input_registers(offset, length)
             elif rtype == registerType.HOLDING:
-                data = self._read_holding_registers(offset, length)
+                registers = self._read_holding_registers(offset, length)
             else:
                 raise NotImplementedError(rtype)
 
-            if not data:
+            if not registers:
                 return results
-
+                
             for k, v in values.items():
                 address, length, rtype, dtype, vtype, label, fmt, batch, sf = v
+                value = self.client.convert_from_registers(registers[address:address+length], self._convert_data_type(dtype), self._endian_enum_to_string(self.wordorder))
+                if not isinstance( value, list):
+                    results[k] = vtype(value)
 
-                if address > offset:
-                    skip_bytes = address - offset
-                    offset += skip_bytes
-                    data.skip_bytes(skip_bytes * 2)
-
-                results[k] = self._decode_value(data, length, dtype, vtype)
-                offset += length
         except NotImplementedError:
             raise
 
@@ -317,7 +302,7 @@ class Meter:
 
         try:
             if rtype == registerType.HOLDING:
-                return self._write_holding_register(address, self._encode_value(data, dtype))
+                return self._write_holding_register(address, self.client.convert_to_registers(data, self._convert_data_type(dtype), self._endian_enum_to_string(self.wordorder)))
             else:
                 raise NotImplementedError(rtype)
         except NotImplementedError:
